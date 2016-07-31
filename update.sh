@@ -1,6 +1,7 @@
 #!/bin/sh
 # author: mt
 
+shopt -s extglob
 hexo clean
 hexo g
 rm -rf ../blogpublic/!(.git)

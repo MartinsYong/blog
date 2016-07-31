@@ -4,7 +4,7 @@
 
 # Site
 title: Martin
-subtitle: 爱设计，爱创造|To design and creat.
+subtitle: 爱设计，爱创造|To design and create
 description: Simple Art
 author: Martin Yong
 language: zh-CN
@@ -49,6 +49,7 @@ category_map:
   技术: tech
   生活: life
   随笔: casual
+  项目: project
 tag_map:
 
 # Date / Time format

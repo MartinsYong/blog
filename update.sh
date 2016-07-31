@@ -4,7 +4,7 @@
 hexo clean
 hexo g
 rm -rf ../blogpublic/!(.git)
-cp ./public/* ../blogpublic/
+cp -rf ./public/* ../blogpublic/
 cd ../blogpublic
 git commit -am "update"
 git push

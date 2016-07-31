@@ -7,7 +7,7 @@ tags: 感想
 
 # 欢迎
 
-这里会不时更新[@MartinsYong](http://weibo.com/u/5575635160)的个人博文。
+嗯，这里会不时更新[@MartinsYong](http://weibo.com/u/5575635160)的个人博文。
 
 <!--more--> 
 

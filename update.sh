@@ -1,10 +1,11 @@
 #!/bin/sh
 # author: mt
 
-shopt -s extglob
 hexo clean
 hexo g
-rm -rf ../blogpublic/!(.git)
+export GLOBIGNORE=.git
+rm -rf ../blogpublic/*
+unset GLOBIGNORE
 cp -rf ./public/* ../blogpublic/
 cd ../blogpublic
 git commit -am "update"

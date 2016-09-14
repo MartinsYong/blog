@@ -1,20 +1,32 @@
-# Hacker
-__Hacker是一款专注于写作的简洁博客主题。在如此讲究复杂排版的趋势下，选择回归本源，专注于写作这件事。__  
-一开始是[moyo](http://liuxinyu.me/)为Wordpress所创作的一个主题，由DaraW移植到Hexo。
+# Hacker | [中文版文档](/README_zh-CN.md)
+__Hacker is a simple style of theme for blog, hoping you focus on writing more rather than the typesetting.__  
+
+At first, [moyo](http://liuxinyu.me/) designed and built it for Wordpress.  
+Later, DaraW ported it to Hexo.
 
 ## Demo
-[DaraW](http://blog.daraw.cn/)
+You can also reference my blog: [DaraW](http://blog.daraw.cn/)  
 
-## 安装
+![](https://ooo.0o0.ooo/2016/08/04/57a306f56bee2.png
+)
 
-在`themes`文件夹中创建文件夹`Hacker`，将主题文件都复制粘贴至`Hacker`文件夹，然后在hexo全局配置文件`_config.yml`中应用主题：
+## Installation
+Firstly get all the theme files, `git clone` or `download zip` is okay.  
+
+Create a folder `Hacker` in the folder `themes`, and copy all the theme files to the folder `Hacker`.  
+
+Then apply the theme in hexo global configuration file `_config.yml`:
+
 ```yaml
 theme: Hacker
 ```
-这样就安装好了，开始享受吧~
+Now all is in order, just enjoy~
 
-## 配置
-在主题配置文件`_config.yml`中：
+__Notice: After every update, you'd better run command `hexo clean` to clean cache files before Hexo generating, in case of some problems cache files bring.__
+
+
+## Configure
+In the theme configuration file `_config.yml`:
 
 ```yaml
 # duoshuo comment
@@ -30,25 +42,27 @@ googleTrackId:
 ```
 
 
-`duoshuo`代表是否开启多说评论，设为`false`则为取消使用多说；  
-`duoshuo_name`为你的多说用户ID，请不要使用别人的ID。
+`duoshuo`: `boolean`, use duoshuo or not;  
+`duoshuo_name`: `string`, your duoshup ID, please don't use other people's IDs。
 
-`disqus`代表是否开启disqus comment，设为`false`则为取消使用disqus；  
-`disqus_shortname`为你的disqus site shortname。
+`disqus`: `boolean`, use disqus or not;  
+`disqus_shortname`: your disqus site shortname.
 
-`googleTrackId`为谷歌分析的个人ID，留空则为不使用谷歌分析。
+`googleTrackId`: your Google Analytics ID, Hacker will not use Google Analytics if it's empty.
 
-## 更新
-### v0.2  
-* 去除部分无用css和重复css
-* 修复无分类/标签依然出现icon的bug
-* 重写归档列表页面
-* 修改代码块样式
+## Update
+### v0.3
+* Refactor ejs template files
+* Replace css with stylus
+* Add English Version README
 
-## 待办
-在考虑要不要添加下面的功能：
-* 夜间模式
-* 多说评论框样式
 
-## 协议
+### v0.2
+* Remove some useless css
+* Fix bug that icon still shows when there are no categories or tags
+* Rewrite the archive index page
+* Change the display of code block
+
+
+## License
 GPL(General Public License)

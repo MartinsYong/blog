@@ -1,17 +1,19 @@
-<%- partial('_partial/head') %>
+<!DOCTYPE HTML>
+<html>
+<%- partial('components/head') %>
 
 <body>
-<div id="page" class="site">
-  <div id="primary" class="content-area">
+<div class="blog">
+  <div class="content">
 
-    <header id="header" class="inner"><%- partial('_partial/header') %></header>
+    <%- partial('components/header') %>
 
-    <main id="main" class="site-main posts-loop" role="main">
-      <%- body %>
+    <main class="site-main posts-loop">
+    <%- body %>
     </main>
 
-    <footer id="colophon" class="site-footer" role="contentinfo"><%- partial('_partial/footer') %></footer>
-    <%- partial('_partial/googleanalytics') %>
+    <%- partial('components/footer') %>
+    <%- partial('components/googleanalytics') %>
   </div>
 </div>
 </body>

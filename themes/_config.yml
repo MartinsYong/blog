@@ -1,0 +1,18 @@
+menu:
+  Home: /
+  Archives: /archives
+  技术: /categories/tech
+  生活: /categories/life
+  随笔: /categories/casual
+  项目: /categories/project
+
+# duoshuo comment
+duoshuo: true
+duoshuo_name: mt123
+
+# disqus comment
+disqus: false
+disqus_shortname: 
+
+# google analytics
+googleTrackId: 

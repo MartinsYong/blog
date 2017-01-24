@@ -51,6 +51,14 @@ googleTrackId:
 `googleTrackId`: `string`，为谷歌分析的个人ID，留空则为不使用谷歌分析。
 
 ## 更新
+### v1.0.1
+* 修复了主页上错误的评论链接
+
+### v1.0
+* 修复从文件夹导致的bug([issue#10](https://github.com/CodeDaraW/Hacker/issues/10))
+* 修复`code`标签的显示效果
+
+
 ### v0.3
 * 重构ejs模板
 * 改用stylus

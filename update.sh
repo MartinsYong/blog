@@ -1,8 +1,8 @@
 #!/bin/sh
 # author: mt
 
-hexo clean
-hexo g
+./node_modules/.bin/hexo clean
+./node_modules/.bin/hexo g
 export GLOBIGNORE=.git
 rm -rf ../blogpublic/*
 unset GLOBIGNORE

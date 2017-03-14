@@ -81,11 +81,13 @@ make && make install
 ```
 
 - 修改配置文件
+
 ```bash
 cp ./src/proxychains.conf /etc/proxychains.conf
 vi /etc/proxychains.conf
 ```
 将```socks4 127.0.0.1 9095```改为
+
 ```
 socks5 127.0.0.1 1080
 ```

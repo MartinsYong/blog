@@ -23,6 +23,8 @@ sudo apt-get update
 sudo apt-get install shadowsocks-qt5
 ```
 
+<!--more-->
+
 ### 应用启动并配置
 
 - 启动

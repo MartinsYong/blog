@@ -6,13 +6,21 @@ menu:
   随笔: /categories/casual
   项目: /categories/project
 
-# duoshuo comment
-duoshuo: true
-duoshuo_name: mt123
+# gitment
+gitment: false
+gitment_owner:
+gitment_repo:
+gitment_client_id:
+gitment_client_secret:
+
+# valine comment
+valine: false
+leancloud_id: 
+leancloud_key: 
 
 # disqus comment
 disqus: false
-disqus_shortname: 
+disqus_shortname:
 
 # google analytics
-googleTrackId: 
+googleTrackId: UA-143426112-1

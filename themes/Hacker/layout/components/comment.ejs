@@ -1,27 +1,39 @@
-<% if (theme.duoshuo){ %>
-	<div id="comment">
-	
-	
-	<!-- 多说评论框 start -->
-	 <div class="ds-thread" data-thread-key="<%- config.root %><%- item.path%>" data-title="<%- item.title %>" data-url="<%- item.permalink %>"></div>
-	<!-- 多说评论框 end -->
-	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-	<script type="text/javascript">
-	var duoshuoQuery = {short_name:"<%- theme.duoshuo_name %>"};
-	  (function() {
-	    var ds = document.createElement('script');
-	    ds.type = 'text/javascript';ds.async = true;
-	    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-	    ds.charset = 'UTF-8';
-	    (document.getElementsByTagName('head')[0] 
-	     || document.getElementsByTagName('body')[0]).appendChild(ds);
-	  })();
-	  </script>
-	<!-- 多说公共JS代码 end -->
-	
-	</div>
-<% } else if (theme.disqus) {%>
-	<section id="comments" class="comment">
+<% if (theme.valine){ %>
+	<section id="comment" class="comment">
+		<div id="vcomments"></div>
+	</section>
+	<!-- LeanCloud -->
+	<script src="//cdn.jsdelivr.net/npm/leancloud-storage@3.10.0/dist/av-min.js"></script>
+	<!-- Valine -->
+	<script src="//unpkg.com/valine/dist/Valine.min.js"></script>
+	<script>
+		new Valine({
+			el: '#vcomments',
+			appId: '<%= theme.leancloud_id %>',
+			appKey: '<%= theme.leancloud_key %>'
+		})
+	</script>
+<% } %>
+<% if (theme.gitment){ %>
+	<section id="comment" class="comment">
+		<div id="gitment"></div>
+	</section>
+	<link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+	<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+	<script>
+		var gitment = new Gitment({
+			owner: '<%= theme.gitment_owner %>',
+			repo: '<%= theme.gitment_repo %>',
+			oauth: {
+				client_id: '<%= theme.gitment_client_id %>',
+				client_secret: '<%= theme.gitment_client_secret %>',
+			},
+		})
+		gitment.render('gitment')
+	</script>
+<% } %>
+<% if (theme.disqus){ %>
+	<section id="comment" class="comment">
 	  <div id="disqus_thread">
 	  <noscript>Please enable JavaScript to view the <a href="//disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
 	  </div>
@@ -44,5 +56,4 @@
 	  (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
 	}());
 	</script>
-
 <% } %>

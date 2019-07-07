@@ -1,0 +1,20 @@
+language: node_js
+
+node_js:
+- '8'
+
+branches:
+  only:
+  - master
+
+before_install:
+- git config --global user.name "MartinsYong"
+- git config --global user.email "a545067127@gmail.com"
+- npm install -g hexo-cli
+- export HEXO_DEPLOYER_REPO=https://$REPO_TOKEN@github.com/MartinsYong/blog
+
+install:
+- npm install
+
+script:
+- npm run deploy

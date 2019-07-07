@@ -9,7 +9,7 @@ branches:
 
 before_install:
 - git config --global user.name "MartinsYong"
-- git config --global user.email "a545067127@gmail.com"
+- git config --global user.email "a545067127@outlook.com"
 - npm install -g hexo-cli
 - export HEXO_DEPLOYER_REPO=https://$REPO_TOKEN@github.com/MartinsYong/blog
 

@@ -21,7 +21,7 @@
     "hexo-util": "^0.6.3"
   },
   "scripts": {
-    "delpoy": "hexo clean && hexo g -d",
+    "deploy": "hexo clean && hexo g -d",
     "dev": "hexo server"
   }
 }

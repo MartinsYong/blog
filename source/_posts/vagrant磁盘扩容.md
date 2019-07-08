@@ -2,7 +2,7 @@
 title: vagrant磁盘拓容
 date: 2018-12-05 18:10:22
 categories: 技术
-tags: 通信
+tags: linux
 ---
 
 下面将给大家讲述一下博主使用**vagrant**虚拟机多次发生的问题及其解决方案。

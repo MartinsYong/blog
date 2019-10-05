@@ -197,15 +197,15 @@ Vue官方文档强烈建议**永远不要把 v-if 和 v-for 同时用在同一�
 可以利用 `is` 属性加列表渲染进行优化：
 ```html
 <template>
-    <Component
+    <component
         v-for="comp in ['cA','cB','cC']"
         :is="comp" :key="comp"
         prop-a="foo" :prop-b="false" prop-c="bar">
-    </Component>
+    </component>
 </template>
 ```
 
-其中，`Component` 可为任何标签
+其中，`component` 可为任何标签
 
 ---
 

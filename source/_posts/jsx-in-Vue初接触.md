@@ -22,6 +22,8 @@ npm install @vue/babel-preset-jsx @vue/babel-helper-vue-jsx-merge-props
 }
 ```
 
+<!--more-->
+
 ##### 对于 Babel6
 
 ```

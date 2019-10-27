@@ -1,6 +1,6 @@
 ---
 title: html2canvas 使用笔记
-date: 2019-09-30 21:01:35
+date: 2019-10-26 20:31:25
 categories: 技术
 tags: [plugins, html2canvas]
 ---

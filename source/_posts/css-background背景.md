@@ -80,7 +80,7 @@ background-clip:border-box;
 }
 ```
 
-![image](http://note.youdao.com/yws/public/resource/113e0fe5a3b748ab7ad319ffa5af2995/xmlnote/WEB50f14979d6aca93e8e78c96a56aad7a7/WEBRESOURCEbef7b54677049f8d51251fb714a0b905/2292)
+![image](https://test-10058651.cos.ap-shanghai.myqcloud.com/css_background%E8%83%8C%E6%99%AF_1.png)
 
 #### background-attachment
 

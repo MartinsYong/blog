@@ -1,0 +1,172 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>深入理解前置自增和后置自增 | Martin | 爱设计，爱创造|To design and create</title>
+
+  
+  <meta name="author" content="Martin Yong">
+  
+
+  
+  <meta name="description" content="Simple Art">
+  
+
+  
+  
+  <meta name="keywords" content="c++">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="深入理解前置自增和后置自增">
+
+  <meta property="og:site_name" content="Martin">
+
+  
+  <meta property="og:image" content="/blog/favicon.ico">
+  
+
+  <link href="/blog/favicon.ico" rel="icon">
+  <link rel="alternate" href="/blog/atom.xml" title="Martin" type="application/atom+xml">
+  <link rel="stylesheet" href="/blog/css/style.css" media="screen" type="text/css">
+  <!-- ketax style -->
+  <link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/blog/">Martin</a>
+    </h1>
+    <p class="site-description">爱设计，爱创造|To design and create</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/blog/">主页</a></li>
+      
+        <li><a href="/blog/archives">归档</a></li>
+      
+        <li><a href="/blog/categories/tech">技术</a></li>
+      
+        <li><a href="/blog/categories/life">生活</a></li>
+      
+        <li><a href="/blog/categories/casual">随笔</a></li>
+      
+        <li><a href="/blog/categories/project">项目</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>深入理解前置自增和后置自增</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/blog/posts/tech/2016.08.06-深入理解前置自增和后置自增.html" rel="bookmark">
+        <time class="entry-date published" datetime="2016-08-06T11:31:59.000Z">
+          2016-08-06
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><h4 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h4><blockquote>
+<p>前置自增先进行赋值后自增，后置自增先进行自增后赋值</p>
+</blockquote>
+<h4 id="个人理解"><a href="#个人理解" class="headerlink" title="个人理解"></a>个人理解</h4><p>实际上是运算级优先的的问题。对于++i，++在最前面，就是先进行自增运算。i ++则是相反。</p>
+<h2 id="正文干货"><a href="#正文干货" class="headerlink" title="正文干货"></a>正文干货</h2><a id="more"></a> 
+<p>要想深入理解两者的区别，我们造个轮子就行了。</p>
+<p>先定义个最简单的<strong>数字类Num</strong>，只有一个属性<strong>整形变量number</strong>。我们可以将这个类的对象视为一个整形变量。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Num</span> //定义<span class="title">Num</span>类</span></span><br><span class="line"><span class="class">&#123;</span></span><br><span class="line"><span class="keyword">private</span>:</span><br><span class="line">	<span class="keyword">int</span> number;</span><br><span class="line"><span class="keyword">public</span>:</span><br><span class="line">	Num(<span class="keyword">int</span> num = <span class="number">0</span>) :number(num) &#123;&#125;; <span class="comment">//构造函数</span></span><br><span class="line">	Num <span class="keyword">operator</span> ++(); <span class="comment">//初始化重载函数</span></span><br><span class="line">	Num <span class="keyword">operator</span> ++ (<span class="keyword">int</span>);</span><br><span class="line">	<span class="keyword">friend</span> ostream &amp; <span class="keyword">operator</span>&lt;&lt;(ostream &amp;out, <span class="keyword">const</span> Num num);</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>然后我们进行<strong>运算符重载</strong>，实现这个类的前置自增和后置自增。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//前置自增运算</span></span><br><span class="line">Num Num::<span class="keyword">operator</span>++()</span><br><span class="line">&#123;</span><br><span class="line">	number += <span class="number">1</span>; <span class="comment">//number自增1</span></span><br><span class="line">	<span class="keyword">return</span> *<span class="keyword">this</span>; <span class="comment">//返回this对象</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="comment">//后置自增运算</span></span><br><span class="line">Num Num::<span class="keyword">operator</span>++(<span class="keyword">int</span>) <span class="comment">//形参用以区别于上面的重载函数，绕过语法限制，没有实际意义</span></span><br><span class="line">&#123;</span><br><span class="line">	Num temp = *<span class="keyword">this</span>;<span class="comment">//复制this对象</span></span><br><span class="line">	(*<span class="keyword">this</span>).number += <span class="number">1</span>;<span class="comment">//number自增1</span></span><br><span class="line">	<span class="keyword">return</span> temp;<span class="comment">//返回复制的对象</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>最后，再将<strong>输出运算符</strong>&lt;&lt;也重载一下就完美了。</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//运算符&lt;&lt;重载函数</span></span><br><span class="line">ostream &amp; <span class="keyword">operator</span>&lt;&lt;(ostream &amp;out, <span class="keyword">const</span> Num num)</span><br><span class="line">&#123;</span><br><span class="line">	out &lt;&lt; num.number;</span><br><span class="line">	<span class="keyword">return</span> out;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>测试一下：）</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">	<span class="function">Num <span class="title">a</span><span class="params">(<span class="number">1</span>)</span></span>;</span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; a++ &lt;&lt; <span class="built_in">endl</span>;<span class="comment">//输出1</span></span><br><span class="line">	<span class="built_in">cout</span> &lt;&lt; ++a &lt;&lt; <span class="built_in">endl</span>;<span class="comment">//输出3</span></span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>从上面代码可以看出，两个函数输出的对象完全不同，前置和后置自增两者的区别甚大。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/blog/categories/tech/">技术</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/blog/tags/c/">c++</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 Martin Yong
+    
+  </p>
+</footer>
+    
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-143426112-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+  </div>
+</div>
+</body>
+</html>

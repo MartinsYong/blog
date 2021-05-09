@@ -1,0 +1,238 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>LeetCode题：买卖股票的最佳时机 | Martin | 爱设计，爱创造|To design and create</title>
+
+  
+  <meta name="author" content="Martin Yong">
+  
+
+  
+  <meta name="description" content="Simple Art">
+  
+
+  
+  
+  <meta name="keywords" content="算法">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="LeetCode题：买卖股票的最佳时机">
+
+  <meta property="og:site_name" content="Martin">
+
+  
+  <meta property="og:image" content="/blog/favicon.ico">
+  
+
+  <link href="/blog/favicon.ico" rel="icon">
+  <link rel="alternate" href="/blog/atom.xml" title="Martin" type="application/atom+xml">
+  <link rel="stylesheet" href="/blog/css/style.css" media="screen" type="text/css">
+  <!-- ketax style -->
+  <link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/blog/">Martin</a>
+    </h1>
+    <p class="site-description">爱设计，爱创造|To design and create</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/blog/">主页</a></li>
+      
+        <li><a href="/blog/archives">归档</a></li>
+      
+        <li><a href="/blog/categories/tech">技术</a></li>
+      
+        <li><a href="/blog/categories/life">生活</a></li>
+      
+        <li><a href="/blog/categories/casual">随笔</a></li>
+      
+        <li><a href="/blog/categories/project">项目</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>LeetCode题：买卖股票的最佳时机</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/blog/posts/tech/2019.08.18-LeetCode题：买卖股票的最佳时机.html" rel="bookmark">
+        <time class="entry-date published" datetime="2019-08-18T05:31:21.000Z">
+          2019-08-18
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>记录一道 LeetCode 题的个人思路及其演进过程。</p>
+<p>该题出自 <a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/" target="_blank" rel="noopener">LeetCode 121</a>。</p>
+<h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><blockquote>
+<p>给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。</p>
+<p>如果你最多只允许完成一笔交易（即买入和卖出一支股票），设计一个算法来计算你所能获取的最大利润。</p>
+<p>注意你不能在买入股票前卖出股票。</p>
+</blockquote>
+<a id="more"></a>
+<p>示例1：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">输入: [7,1,5,3,6,4]</span><br><span class="line">输出: 5</span><br><span class="line">解释: 在第 2 天（股票价格 = 1）的时候买入，在第 5 天（股票价格 = 6）的时候卖出，最大利润 = 6-1 = 5 。</span><br><span class="line">     注意利润不能是 7-1 = 6, 因为卖出价格需要大于买入价格。</span><br></pre></td></tr></table></figure></p>
+<p>示例2：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">输入: [7,6,4,3,1]</span><br><span class="line">输出: 0</span><br><span class="line">解释: 在这种情况下, 没有交易完成, 所以最大利润为 0。</span><br></pre></td></tr></table></figure></p>
+<h3 id="解答思路"><a href="#解答思路" class="headerlink" title="解答思路"></a>解答思路</h3><h4 id="暴力法"><a href="#暴力法" class="headerlink" title="暴力法"></a>暴力法</h4><p>暴力法的思路很简单：两层遍历，列举出所有可能的情况，然后求最大值。</p>
+<p>这种方法的时间复杂度为 <code>O(n^2)</code></p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">fuction maxProfit(prices) &#123;</span><br><span class="line">    <span class="keyword">let</span> maxprofit = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; prices.length - <span class="number">1</span>; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> j = i + <span class="number">1</span>; j &lt; prices.length; j++) &#123;</span><br><span class="line">            <span class="keyword">let</span> profit = prices[j] - prices[i];</span><br><span class="line">            <span class="keyword">if</span> (profit &gt; maxprofit)</span><br><span class="line">                maxprofit = profit;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> maxprofit;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="动态规划"><a href="#动态规划" class="headerlink" title="动态规划"></a>动态规划</h4><p>动态规划的<strong>思想</strong>主要是两点：</p>
+<ol>
+<li>自底向上分解问题</li>
+<li>通过已得到的下层的解逐步转化成上层的解</li>
+</ol>
+<p>对于这道题，我们可以在暴力法的基础上利用动态规划进行优化：</p>
+<ol>
+<li>利用一个表（数组）记录每一天卖出可以得到的最大利润</li>
+<li>该天的最大利润通过前几天的最大利润加上这两天的价差来得出</li>
+</ol>
+<p>以上，我们就可以得出动态规划的解答。</p>
+<p>遍历过程的解：</p>
+<table>
+<thead>
+<tr>
+<th>天</th>
+<th>价格</th>
+<th>卖出获得的最大利润</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1</td>
+<td>7</td>
+<td>0</td>
+</tr>
+<tr>
+<td>2</td>
+<td>1</td>
+<td>0</td>
+</tr>
+<tr>
+<td>3</td>
+<td>5</td>
+<td>4</td>
+</tr>
+<tr>
+<td>4</td>
+<td>3</td>
+<td>2</td>
+</tr>
+<tr>
+<td>5</td>
+<td>6</td>
+<td>5</td>
+</tr>
+<tr>
+<td>6</td>
+<td>4</td>
+<td>3</td>
+</tr>
+</tbody>
+</table>
+<p>然而，我们还需要基于该题目的特征进行优化：</p>
+<ul>
+<li>按照顺序来说，能获得利润的第一天肯定是当前的最大利润，如示例 1 的第 3 天</li>
+<li>二层遍历只需找到前面最近的最大利润大于 0 的参考时间点即可，如示例 1 的第 4 天的利润只需参考第 3 天的利润</li>
+</ul>
+<p>参考代码：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">maxProfit</span>(<span class="params">prices</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> profitArr = (<span class="keyword">new</span> <span class="built_in">Array</span>(prices.length)).fill(<span class="number">0</span>);</span><br><span class="line">    <span class="keyword">let</span> max = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">1</span>; i &lt; prices.length; i++) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">let</span> j = i<span class="number">-1</span>; j &gt;= <span class="number">0</span>; j--) &#123;</span><br><span class="line">            <span class="keyword">if</span> (profitArr[j] &gt; <span class="number">0</span> || prices[i] &gt; prices[j]) &#123;</span><br><span class="line">                <span class="keyword">const</span> profit = profitArr[j] + prices[i] - prices[j];</span><br><span class="line">                <span class="keyword">if</span> (profit &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                    profitArr[i] = profit;</span><br><span class="line">                    max = <span class="built_in">Math</span>.max(max, profit);</span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> max;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>以上解法的时间复杂度是：最优 <code>O(n)</code>，最差 <code>O(n^2)</code>。空间复杂度为 <code>O(n)</code>。</p>
+<h4 id="最优解"><a href="#最优解" class="headerlink" title="最优解"></a>最优解</h4><p>我们知道：</p>
+<ul>
+<li>遍历本是有顺序性，跟本题要求切合</li>
+<li>在第 i 天卖出的情况下，只需前些天最低的价格即可求最大利润</li>
+</ul>
+<p>所以，我们不需要记录每天卖出的最大利润，只需记录一下前些天的最小价格即可。然后，整个问题的解可从子问题解上求最大即可。</p>
+<p>参考代码：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">maxProfit</span>(<span class="params">prices</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> minPrice = <span class="built_in">Number</span>.MAX_SAFE_INTEGER;</span><br><span class="line">    <span class="keyword">let</span> max = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">let</span> i = <span class="number">0</span>; i &lt; prices.length; i++) &#123;</span><br><span class="line">        minPrice = <span class="built_in">Math</span>.min(minPrice, prices[i]);</span><br><span class="line">        max = <span class="built_in">Math</span>.max(max, prices[i] - minPrice);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> max;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>此解的时间复杂度为 <code>O(n)</code>，空间复杂度为 <code>O(1)</code>。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/blog/categories/tech/">技术</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/blog/tags/算法/">算法</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 Martin Yong
+    
+  </p>
+</footer>
+    
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-143426112-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+  </div>
+</div>
+</body>
+</html>

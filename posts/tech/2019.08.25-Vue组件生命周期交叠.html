@@ -1,0 +1,208 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>Vue 组件生命周期交叠 | Martin | 爱设计，爱创造|To design and create</title>
+
+  
+  <meta name="author" content="Martin Yong">
+  
+
+  
+  <meta name="description" content="Simple Art">
+  
+
+  
+  
+  <meta name="keywords" content="Vue">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="Vue 组件生命周期交叠">
+
+  <meta property="og:site_name" content="Martin">
+
+  
+  <meta property="og:image" content="/blog/favicon.ico">
+  
+
+  <link href="/blog/favicon.ico" rel="icon">
+  <link rel="alternate" href="/blog/atom.xml" title="Martin" type="application/atom+xml">
+  <link rel="stylesheet" href="/blog/css/style.css" media="screen" type="text/css">
+  <!-- ketax style -->
+  <link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/blog/">Martin</a>
+    </h1>
+    <p class="site-description">爱设计，爱创造|To design and create</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/blog/">主页</a></li>
+      
+        <li><a href="/blog/archives">归档</a></li>
+      
+        <li><a href="/blog/categories/tech">技术</a></li>
+      
+        <li><a href="/blog/categories/life">生活</a></li>
+      
+        <li><a href="/blog/categories/casual">随笔</a></li>
+      
+        <li><a href="/blog/categories/project">项目</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>Vue 组件生命周期交叠</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/blog/posts/tech/2019.08.25-Vue组件生命周期交叠.html" rel="bookmark">
+        <time class="entry-date published" datetime="2019-08-25T06:31:21.000Z">
+          2019-08-25
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h3 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h3><p>笔者这周在开发上面遇到了一个 Vue 的问题，就是文章标题所提到的。笔者觉得这个问题非常普遍，但是鲜有资料，所以拿出来分享并一起探讨一下。</p>
+<p>首先，说一下当时问题发生的一个具体的场景：</p>
+<ol>
+<li>不同页面组件都需监听只由父组件触发的特定事件（如 <code>myevent</code>）</li>
+<li>这些页面组件在同一时间内只会挂载一个</li>
+<li>当前页面在此事件触发之后需要实现特定的业务逻辑</li>
+</ol>
+<p>那好，实现这样的场景需求其实也挺简单：只需在各个页面组件创建时监听这个事件，销毁时取消监听就可以了。</p>
+<p>然而，问题出现了。</p>
+<a id="more"></a>
+<p>刚开始还能正常实现，事件正常触发。但是切换了页面组件后，就无法正常实现：父组件触发了事件，但是页面组件并没有执行相应的特定业务。</p>
+<h3 id="问题分析"><a href="#问题分析" class="headerlink" title="问题分析"></a>问题分析</h3><p>我们先了解一下事件监听和取消监听的 API：</p>
+<ul>
+<li><p>监听：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$on( event, callback )</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>取消监听：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$off( [event, callback] )</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>我们知道：<code>$off</code> 函数只传 <code>event</code> 参数的话，bus 会把所有 listeners 给注销。当时笔者就是用了这种注销方式。</p>
+<p>另外，笔者在实现页面组件代码时候，把 <code>$on</code> 放在了 <code>created</code> hook 中，把 <code>$off</code> 放在了 <code>destroyed</code> hook 中。</p>
+<p>好，这两个写法都是问题的关键：</p>
+<ul>
+<li><code>$off</code> 注销全部的 listeners</li>
+<li>使用 hook: <code>created</code> 和 <code>destroyed</code></li>
+</ul>
+<p>结果导致了页面组件切换时，如 A 切换成 B，A 销毁时把 B 新建的监听给注销掉。</p>
+<p>到这里，读者们就会有疑问：不是 A 销毁了再 B 新建码吗？A 怎么会影响到 B？</p>
+<h3 id="生命周期交叠"><a href="#生命周期交叠" class="headerlink" title="生命周期交叠"></a>生命周期交叠</h3><p>对于 Vue 的实例生命周期，了解过 Vue 的读者都很清楚。如 hook 的执行顺序：</p>
+<ol>
+<li>beforeCreate</li>
+<li>created</li>
+<li>beforeMount</li>
+<li>mounted</li>
+<li>beforeUpdate</li>
+<li>updated</li>
+<li>beforeDestroy</li>
+<li>destoryed</li>
+</ol>
+<p>那如果是多个实例呢，它们之间的生命周期是如何表现？</p>
+<p>如父子组件的创建和销毁。这个，大家都可能比较了解，整个过程跟执行栈切换相似：创建时先创建父组件，销毁时先销毁子组件。</p>
+<p>那么，如果是前面提到的情况呢：同级组件发生切换。大家的答案可能都是先销毁了已有的，再创建新的。其实，这个答案并不完全。笔者之前也是这样的看法，直到真正遇到了问题。</p>
+<p>实际上，它们的 hook 顺序是这样的：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">A: beforeCreate</span><br><span class="line">A: created</span><br><span class="line">A: beforeMount</span><br><span class="line">A: mounted</span><br><span class="line">A: beforeUpdate</span><br><span class="line">A: updated</span><br><span class="line">...</span><br><span class="line">-&gt; 执行切换</span><br><span class="line">B: beforeCreate</span><br><span class="line">B: created</span><br><span class="line">B: beforeMount</span><br><span class="line">A: beforeDestroy</span><br><span class="line">A: destroyed</span><br><span class="line">B: mounted</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+<p><strong>是不是很出乎意料？那 B 的子组件呢？这里强烈建议读者去实践试验一下。</strong></p>
+<p>因此，实际发送切换后，B 先创建实例准备挂载，然后 A 执行销毁，再到 B 完成挂载。这样的 hook 顺序导致了上面问题的出现。</p>
+<p>那么，如果我们在 <code>mounted</code> 了之后才注册这个事件，就能解决这个问题。</p>
+<h3 id="最后"><a href="#最后" class="headerlink" title="最后"></a>最后</h3><p>其实，不只是路由页面组件切换会导致周期交叠的情况发生，简单的 <code>v-if</code> 与 <code>v-else</code> 实现<strong>不同组件</strong>的即时切换也能导致。</p>
+<p>如这个实例：<br><a href="https://codesandbox.io/s/vuecrosslifecycle-g22px" target="_blank" rel="noopener">vuecrosslifecycle</a>。</p>
+<p>一开始点击 emit 是有对应信息输出在控制台中，但是点击 switch 之后再点击 emit 就没有输出了。</p>
+<h3 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h3><p><a href="https://www.jianshu.com/p/fde85549e3b0" target="_blank" rel="noopener">vue中eventbus被多次触发（vue中使用eventbus踩过的坑）</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/blog/categories/tech/">技术</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/blog/tags/Vue/">Vue</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 Martin Yong
+    
+  </p>
+</footer>
+    
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-143426112-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,174 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>python学习笔记(三) | Martin | 爱设计，爱创造|To design and create</title>
+
+  
+  <meta name="author" content="Martin Yong">
+  
+
+  
+  <meta name="description" content="Simple Art">
+  
+
+  
+  
+  <meta name="keywords" content="python">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="python学习笔记(三)">
+
+  <meta property="og:site_name" content="Martin">
+
+  
+  <meta property="og:image" content="/blog/favicon.ico">
+  
+
+  <link href="/blog/favicon.ico" rel="icon">
+  <link rel="alternate" href="/blog/atom.xml" title="Martin" type="application/atom+xml">
+  <link rel="stylesheet" href="/blog/css/style.css" media="screen" type="text/css">
+  <!-- ketax style -->
+  <link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/blog/">Martin</a>
+    </h1>
+    <p class="site-description">爱设计，爱创造|To design and create</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/blog/">主页</a></li>
+      
+        <li><a href="/blog/archives">归档</a></li>
+      
+        <li><a href="/blog/categories/tech">技术</a></li>
+      
+        <li><a href="/blog/categories/life">生活</a></li>
+      
+        <li><a href="/blog/categories/casual">随笔</a></li>
+      
+        <li><a href="/blog/categories/project">项目</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>python学习笔记(三)</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/blog/posts/tech/2016.09.10-python学习笔记-三.html" rel="bookmark">
+        <time class="entry-date published" datetime="2016-09-10T07:11:26.000Z">
+          2016-09-10
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h3 id="格式化字符串format函数"><a href="#格式化字符串format函数" class="headerlink" title="格式化字符串format函数"></a>格式化字符串format函数</h3><h4 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h4><p>它通过<strong>{}</strong>和<strong>:</strong>来代替<strong>%</strong></p>
+<h4 id="“映射”示例"><a href="#“映射”示例" class="headerlink" title="“映射”示例"></a>“映射”示例</h4><h5 id="通过位置"><a href="#通过位置" class="headerlink" title="通过位置"></a>通过位置</h5><a id="more"></a>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">1</span>]: <span class="string">'&#123;0&#125;,&#123;1&#125;'</span>.format(<span class="string">'kzc'</span>,<span class="number">18</span>)  </span><br><span class="line">Out[<span class="number">1</span>]: <span class="string">'kzc,18'</span>  </span><br><span class="line">In [<span class="number">2</span>]: <span class="string">'&#123;&#125;,&#123;&#125;'</span>.format(<span class="string">'kzc'</span>,<span class="number">18</span>)  </span><br><span class="line">Out[<span class="number">2</span>]: <span class="string">'kzc,18'</span>  </span><br><span class="line">In [<span class="number">3</span>]: <span class="string">'&#123;1&#125;,&#123;0&#125;,&#123;1&#125;'</span>.format(<span class="string">'kzc'</span>,<span class="number">18</span>)  </span><br><span class="line">Out[<span class="number">3</span>]: <span class="string">'18,kzc,18'</span></span><br></pre></td></tr></table></figure>
+<p>字符串的<strong>format函数</strong>可以接受不限个参数，位置可以不按顺序，可以不用或者用多次，不过<em>2.6</em>不能为空{}，<em>2.7</em>才可以。</p>
+<h5 id="通过关键字参数"><a href="#通过关键字参数" class="headerlink" title="通过关键字参数"></a>通过关键字参数</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">5</span>]: <span class="string">'&#123;name&#125;,&#123;age&#125;'</span>.format(age=<span class="number">18</span>,name=<span class="string">'kzc'</span>)  </span><br><span class="line">Out[<span class="number">5</span>]: <span class="string">'kzc,18'</span></span><br></pre></td></tr></table></figure>
+<h5 id="通过对象属性"><a href="#通过对象属性" class="headerlink" title="通过对象属性"></a>通过对象属性</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Person</span>:</span>  </span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self,name,age)</span>:</span>  </span><br><span class="line">        self.name,self.age = name,age  </span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">__str__</span><span class="params">(self)</span>:</span>  </span><br><span class="line">            <span class="keyword">return</span> <span class="string">'This guy is &#123;self.name&#125;,is &#123;self.age&#125; old'</span>.format(self=self)</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">2</span>]: str(Person(<span class="string">'kzc'</span>,<span class="number">18</span>))  </span><br><span class="line">Out[<span class="number">2</span>]: <span class="string">'This guy is kzc,is 18 old'</span></span><br></pre></td></tr></table></figure>
+<h5 id="通过下标"><a href="#通过下标" class="headerlink" title="通过下标"></a>通过下标</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">7</span>]: p=[<span class="string">'kzc'</span>,<span class="number">18</span>]</span><br><span class="line">In [<span class="number">8</span>]: <span class="string">'&#123;0[0]&#125;,&#123;0[1]&#125;'</span>.format(p)</span><br><span class="line">Out[<span class="number">8</span>]: <span class="string">'kzc,18'</span></span><br></pre></td></tr></table></figure>
+<p>有了这些便捷的“映射”方式，我们就有了偷懒利器。基本的python知识告诉我们，list和tuple可以通过“打散”成普通参数给函数，而dict可以打散成关键字参数给函数。所以可以轻松的传个<strong>list/tuple/dict</strong>给format函数。非常灵活。</p>
+<h4 id="格式限定符"><a href="#格式限定符" class="headerlink" title="格式限定符"></a>格式限定符</h4><p>它有着丰富的<br><strong>“格式限定符”</strong>（语法是{}中带:号），比如：</p>
+<h5 id="填充与对齐"><a href="#填充与对齐" class="headerlink" title="填充与对齐"></a>填充与对齐</h5><p>填充常跟对齐一起使用<br><strong>^</strong>、<strong>&lt;</strong>、<strong>&gt;</strong><br>分别是居中、左对齐、右对齐，后面带宽度<br>:号后面带填充的字符，只能是一个字符，不指定的话默认是用空格填充<br>比如:</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">15</span>]: <span class="string">'&#123;:&gt;8&#125;'</span>.format(<span class="string">'189'</span>)</span><br><span class="line">Out[<span class="number">15</span>]: <span class="string">'     189'</span></span><br><span class="line">In [<span class="number">16</span>]: <span class="string">'&#123;:0&gt;8&#125;'</span>.format(<span class="string">'189'</span>)</span><br><span class="line">Out[<span class="number">16</span>]: <span class="string">'00000189'</span></span><br><span class="line">In [<span class="number">17</span>]: <span class="string">'&#123;:a&gt;8&#125;'</span>.format(<span class="string">'189'</span>)</span><br><span class="line">Out[<span class="number">17</span>]: <span class="string">'aaaaa189'</span></span><br></pre></td></tr></table></figure>
+<h5 id="精度与类型f"><a href="#精度与类型f" class="headerlink" title="精度与类型f"></a>精度与类型f</h5><p>精度常跟类型f一起使用<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">44</span>]: <span class="string">'&#123;:.2f&#125;'</span>.format(<span class="number">321.33345</span>)</span><br><span class="line">Out[<span class="number">44</span>]: <span class="string">'321.33'</span></span><br></pre></td></tr></table></figure></p>
+<p>其中<br><strong>.2</strong>表示长度为2的精度，<strong>f</strong>表示float类型。</p>
+<h5 id="其他类型"><a href="#其他类型" class="headerlink" title="其他类型"></a>其他类型</h5><p>主要就是进制了，<strong>b</strong>、<strong>d</strong>、<strong>o</strong>、<strong>x</strong>分别是二进制、十进制、八进制、十六进制。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">54</span>]: <span class="string">'&#123;:b&#125;'</span>.format(<span class="number">17</span>)</span><br><span class="line">Out[<span class="number">54</span>]: <span class="string">'10001'</span></span><br><span class="line">In [<span class="number">55</span>]: <span class="string">'&#123;:d&#125;'</span>.format(<span class="number">17</span>)</span><br><span class="line">Out[<span class="number">55</span>]: <span class="string">'17'</span></span><br><span class="line">In [<span class="number">56</span>]: <span class="string">'&#123;:o&#125;'</span>.format(<span class="number">17</span>)</span><br><span class="line">Out[<span class="number">56</span>]: <span class="string">'21'</span></span><br><span class="line">In [<span class="number">57</span>]: <span class="string">'&#123;:x&#125;'</span>.format(<span class="number">17</span>)</span><br><span class="line">Out[<span class="number">57</span>]: <span class="string">'11'</span></span><br></pre></td></tr></table></figure></p>
+<p>用<strong>,</strong>号还能用来做金额的千位分隔符。<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">47</span>]: <span class="string">'&#123;:,&#125;'</span>.format(<span class="number">1234567890</span>)</span><br><span class="line">Out[<span class="number">47</span>]: <span class="string">'1,234,567,890'</span></span><br></pre></td></tr></table></figure></p>
+<h5 id="在格式化字符串中访问对象属性和字典键值"><a href="#在格式化字符串中访问对象属性和字典键值" class="headerlink" title="在格式化字符串中访问对象属性和字典键值"></a>在格式化字符串中访问对象属性和字典键值</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">'My &#123;1[kind]&#125; runs &#123;0.platform&#125;'</span>.format(sys, &#123;<span class="string">'kind'</span>: <span class="string">'pc'</span>&#125;)  </span><br><span class="line"><span class="string">'My pc runs linux'</span>  </span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">'My &#123;map[kind]&#125; runs &#123;sys.platform&#125;'</span>.format(sys=sys, map=&#123;<span class="string">'kind'</span>: <span class="string">'pc'</span>&#125;) </span><br><span class="line"><span class="string">'My pc runs linux'</span></span><br></pre></td></tr></table></figure>
+<h5 id="在格式化字符串中通过下标（正整数）访问list元素"><a href="#在格式化字符串中通过下标（正整数）访问list元素" class="headerlink" title="在格式化字符串中通过下标（正整数）访问list元素"></a>在格式化字符串中通过下标（正整数）访问list元素</h5><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>somelist = list(<span class="string">'SPAM'</span>)  </span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">'first=&#123;0[0]&#125;, third=&#123;0[2]&#125;'</span>.format(somelist)  </span><br><span class="line"><span class="string">'first=S, third=A'</span>  </span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">'first=&#123;0&#125;, last=&#123;1&#125;'</span>.format(somelist[<span class="number">1</span>], somelist[<span class="number">-1</span>])  </span><br><span class="line"><span class="string">'first=P, last=M'</span>  </span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span>parts = somelist[<span class="number">0</span>], somelist[<span class="number">-1</span>], somelist[<span class="number">1</span>:<span class="number">-1</span>]  </span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="string">'first=&#123;0&#125;, last=&#123;1&#125;, middle=&#123;2&#125;'</span>.format(*parts)  </span><br><span class="line"><span class="string">"first=S, last=M, middle=['P', 'A']"</span></span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/blog/categories/tech/">技术</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/blog/tags/python/">python</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 Martin Yong
+    
+  </p>
+</footer>
+    
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-143426112-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+  </div>
+</div>
+</body>
+</html>

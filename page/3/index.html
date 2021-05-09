@@ -1,0 +1,418 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>第 3 页 | Martin | 爱设计，爱创造|To design and create</title>
+
+  
+  <meta name="author" content="Martin Yong">
+  
+
+  
+  <meta name="description" content="Simple Art">
+  
+
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  
+
+  <meta property="og:site_name" content="Martin">
+
+  
+  <meta property="og:image" content="/blog/favicon.ico">
+  
+
+  <link href="/blog/favicon.ico" rel="icon">
+  <link rel="alternate" href="/blog/atom.xml" title="Martin" type="application/atom+xml">
+  <link rel="stylesheet" href="/blog/css/style.css" media="screen" type="text/css">
+  <!-- ketax style -->
+  <link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/blog/">Martin</a>
+    </h1>
+    <p class="site-description">爱设计，爱创造|To design and create</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/blog/">主页</a></li>
+      
+        <li><a href="/blog/archives">归档</a></li>
+      
+        <li><a href="/blog/categories/tech">技术</a></li>
+      
+        <li><a href="/blog/categories/life">生活</a></li>
+      
+        <li><a href="/blog/categories/casual">随笔</a></li>
+      
+        <li><a href="/blog/categories/project">项目</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/blog/posts/tech/2019.08.03-简单实现requestAnimationFrame.html"><span>简单实现 requestAnimationFrame</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/blog/posts/tech/2019.08.03-简单实现requestAnimationFrame.html" rel="bookmark">
+        <time class="entry-date published" datetime="2019-08-03T04:31:00.000Z">
+          2019-08-03
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p><code>requestAnimationFrame</code> （还有对应的 <code>cancelAnimationFrame</code>） 是新手（没错，说的是笔者本人）学习 JavaScript 实现原生动画的必经之路。这篇文章只单单讲<strong>如何简单实现这个函数</strong>，而如果你想了解关于 <code>requestAnimationFrame</code> 的概念及原理，请浏览本文最下方的参考文章。</p>
+<h3 id="为什么要自己实现？"><a href="#为什么要自己实现？" class="headerlink" title="为什么要自己实现？"></a>为什么要自己实现？</h3><p>笔者第一次决定用 JavaScript 实现动画时，就吃了亏。因为 <code>requestAnimationFrame</code> 在 IE9 及以下版本是不兼容的。详情可以看 <a href="https://caniuse.com/#search=requestanimationframe" target="_blank" rel="noopener">caniuse</a>。</p>
+<p>然后就没办法，这个动画要能在 IE9 上跑，不然直接可以使用 CSS3。所以只能自己尝试去实现 polyfill。</p>
+<p>我们在使用 <code>requestAnimationFrame</code> 时候，兼容性是先要考虑的（其实很多新的 API 也需要考虑这个问题）。而在兼容性不满足的情况下，我们就需要 polyfill。</p>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/blog/categories/tech/">技术</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/blog/tags/javascript/">javascript</a><a href="/blog/tags/动画/">动画</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/blog/posts/project/2019.07.25-记一个后台管理UI项目的架构演进.html"><span>记一个后台管理UI项目的架构演进</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/blog/posts/project/2019.07.25-记一个后台管理UI项目的架构演进.html" rel="bookmark">
+        <time class="entry-date published" datetime="2019-07-25T12:11:12.000Z">
+          2019-07-25
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>去年年初，自己独自承担了公司一个嵌入式设备的后台管理界面的项目。整个项目经过了一年多的维护和改进，笔者感慨万千，遂成此文。</p>
+<p>虽说项目规模不大，但却是实打实地经历了几次工程架构的演变。接下来请让我一一道来。</p>
+<h2 id="初始"><a href="#初始" class="headerlink" title="初始"></a>初始</h2><p>刚开始，由于项目紧急，我并没有想太多，直接先用最熟悉的而且环境较容易搭建（公司设备系统问题）的 <strong>PHP</strong> 写起来。当然，当时公司还有一个要求是：全部代码加起来不能多于<strong>一兆</strong>（受限于存储容量）。</p>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/blog/categories/project/">项目</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/blog/tags/前后端/">前后端</a><a href="/blog/tags/工程/">工程</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/blog/posts/tech/2018.12.05-vagrant磁盘扩容.html"><span>vagrant磁盘拓容</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/blog/posts/tech/2018.12.05-vagrant磁盘扩容.html" rel="bookmark">
+        <time class="entry-date published" datetime="2018-12-05T10:10:22.000Z">
+          2018-12-05
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>下面将给大家讲述一下博主使用<strong>vagrant</strong>虚拟机多次发生的问题及其解决方案。</p>
+<h3 id="令人窒息"><a href="#令人窒息" class="headerlink" title="令人窒息"></a>令人窒息</h3><blockquote>
+<p>哇，怎么又跑崩了？No disk space left…</p>
+</blockquote>
+<p>之前用得好好的，然后出现了这样一个错误</p>
+<p>运行命令<br><figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ df -h</span><br></pre></td></tr></table></figure></p>
+<p>发现硬盘使用率100%</p>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/blog/categories/tech/">技术</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/blog/tags/linux/">linux</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/blog/posts/tech/2018.11.05-genieacs源码剖析.html"><span>genieacs源码剖析</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/blog/posts/tech/2018.11.05-genieacs源码剖析.html" rel="bookmark">
+        <time class="entry-date published" datetime="2018-11-05T09:15:12.000Z">
+          2018-11-05
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <blockquote>
+<p>A fast and lightweight TR-069 Auto Configuration Server (ACS)</p>
+</blockquote>
+<h3 id="项目地址"><a href="#项目地址" class="headerlink" title="项目地址"></a>项目地址</h3><p><a href="https://github.com/genieacs/genieacs" target="_blank" rel="noopener">Genieacs</a></p>
+<h3 id="目录结构"><a href="#目录结构" class="headerlink" title="目录结构"></a>目录结构</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">├── bin 存放入口文件</span><br><span class="line">│   ├── genieacs-cwmp 主体程序可执行脚本</span><br><span class="line">│   ├── genieacs-fs 文件服务可执行脚本</span><br><span class="line">│   └── genieacs-nbi RESTFUL API服务可执行脚本</span><br><span class="line">├── config 存放配置参数文件及拓展插件文件</span><br><span class="line">│   ├── auth-sample.js</span><br><span class="line">│   ├── auth.js</span><br><span class="line">│   ├── config-sample.json</span><br><span class="line">│   ├── config.json</span><br><span class="line">│   └── ext-sample.js</span><br><span class="line">├── debug</span><br><span class="line">├── lib 存放核心文件</span><br><span class="line">│   ├── api-functions.js</span><br><span class="line">│   ├── auth.js 处理http认证</span><br><span class="line">│   ├── cache.js</span><br><span class="line">│   ├── cluster.js 调用cluster模块逻辑</span><br><span class="line">│   ├── common.js 存放处理变量的方法</span><br><span class="line">│   ├── config.js 获取配置参数</span><br><span class="line">│   ├── cwmp.js</span><br><span class="line">│   ├── db.js 数据库查询</span><br><span class="line">│   ├── default-provisions.js</span><br><span class="line">│   ├── device.js</span><br><span class="line">│   ├── extension-wrapper.js</span><br><span class="line">│   ├── extensions.js</span><br><span class="line">│   ├── fs.js</span><br><span class="line">│   ├── gpn-heuristic.js</span><br><span class="line">│   ├── instance-set.js</span><br><span class="line">│   ├── local-cache.js</span><br><span class="line">│   ├── logger.js 日志</span><br><span class="line">│   ├── nbi.js</span><br><span class="line">│   ├── path-set.js</span><br><span class="line">│   ├── query.js</span><br><span class="line">│   ├── sandbox.js</span><br><span class="line">│   ├── scheduling.js</span><br><span class="line">│   ├── server.js 启动http服务</span><br><span class="line">│   ├── session.js</span><br><span class="line">│   ├── soap.js XMLSOAP处理(包括解析和打包)</span><br><span class="line">│   └── versioned-map.js</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/blog/categories/tech/">技术</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/blog/tags/通信/">通信</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/blog/posts/tech/2018.10.06-CWMP协议.html"><span>CWMP协议</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/blog/posts/tech/2018.10.06-CWMP协议.html" rel="bookmark">
+        <time class="entry-date published" datetime="2018-10-06T11:25:11.000Z">
+          2018-10-06
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="关于cwmp"><a href="#关于cwmp" class="headerlink" title="关于cwmp"></a>关于cwmp</h2><p>全称：CPE WAN Management Protocol，用于管理CPE。采用http协议进行通讯，消息格式为XML Soap。</p>
+<p>消息数据模型及例子参考：<a href="https://cwmp-data-models.broadband-forum.org/" target="_blank" rel="noopener">cwmp</a></p>
+<p>下面开始介绍一下好用的基于CWMP协议的客户端和服务端。</p>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/blog/categories/tech/">技术</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/blog/tags/通信/">通信</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+
+<nav class="pagination">
+  
+  <a href="/blog/page/2/" class="pagination-prev">上一页</a>
+  
+  
+  <a href="/blog/page/4/" class="pagination-next">下一页</a>
+  
+</nav>
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 Martin Yong
+    
+  </p>
+</footer>
+    
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-143426112-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+  </div>
+</div>
+</body>
+</html>

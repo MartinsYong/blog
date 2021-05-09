@@ -1,0 +1,188 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>Vue 高阶组件三剑客 | Martin | 爱设计，爱创造|To design and create</title>
+
+  
+  <meta name="author" content="Martin Yong">
+  
+
+  
+  <meta name="description" content="Simple Art">
+  
+
+  
+  
+  <meta name="keywords" content="Vue">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="Vue 高阶组件三剑客">
+
+  <meta property="og:site_name" content="Martin">
+
+  
+  <meta property="og:image" content="/blog/favicon.ico">
+  
+
+  <link href="/blog/favicon.ico" rel="icon">
+  <link rel="alternate" href="/blog/atom.xml" title="Martin" type="application/atom+xml">
+  <link rel="stylesheet" href="/blog/css/style.css" media="screen" type="text/css">
+  <!-- ketax style -->
+  <link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/blog/">Martin</a>
+    </h1>
+    <p class="site-description">爱设计，爱创造|To design and create</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/blog/">主页</a></li>
+      
+        <li><a href="/blog/archives">归档</a></li>
+      
+        <li><a href="/blog/categories/tech">技术</a></li>
+      
+        <li><a href="/blog/categories/life">生活</a></li>
+      
+        <li><a href="/blog/categories/casual">随笔</a></li>
+      
+        <li><a href="/blog/categories/project">项目</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>Vue 高阶组件三剑客</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/blog/posts/tech/2019.10.05-Vue高阶组件三剑客.html" rel="bookmark">
+        <time class="entry-date published" datetime="2019-10-05T05:48:21.000Z">
+          2019-10-05
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>让我们直接进入正题，这三剑客就是指 <code>$props</code>、<code>$attrs</code>、<code>$listeners</code>。</p>
+<h3 id="API-定义"><a href="#API-定义" class="headerlink" title="API 定义"></a>API 定义</h3><p>先看官方文档定义然后再慢慢展开：</p>
+<blockquote>
+<p><code>vm.$props</code>: 当前组件接收到的 props 对象。<br><code>vm.$attrs</code>: 包含了父作用域中不作为 prop 被识别 (且获取) 的特性绑定 (class 和 style 除外)。<br><code>vm.$listeners</code>: 包含了父作用域中的 (不含 .native 修饰器的) v-on 事件监听器。</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="props"><a href="#props" class="headerlink" title="$props"></a>$props</h3><p>定义简单明了，意思是我们可以从 <code>$props</code> 获取组件接收到的 props 对象，这个 props 就是指组件本身定义的 props。比如:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;div&gt;&#123;&#123;a&#125;&#125;&amp;&#123;&#123;b&#125;&#125;&amp;&#123;&#123;c&#125;&#125;&lt;/div&gt;</span><br><span class="line">&lt;template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">export default &#123;</span><br><span class="line">    name: &apos;abc&apos;,</span><br><span class="line">    props: [&apos;a&apos;, &apos;b&apos;, &apos;c&apos;]</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<p>此组件在创建之后，即可访问该实例的 <code>$props</code>，获取到 <code>a</code>、<code>b</code> 和 <code>c</code> 三个属性及值。</p>
+<p>当然这里有两种情况需要考虑：</p>
+<ol>
+<li>父作用域传入了值：那我们可以直接获取去得到这个传入的值</li>
+<li>父作用域没有传入值：如果有定义此 prop 的默认值，那么我们会得到此默认值，否则会得到 <code>undefined</code></li>
+</ol>
+<h3 id="attrs"><a href="#attrs" class="headerlink" title="$attrs"></a>$attrs</h3><p>如果父作用域传了一些组件未定义的值，那我们就可以从 <code>$attrs</code> 中获取得到。</p>
+<p>比如我们基于上面那个例子，在父作用域给它传其他值：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;abc :a=&quot;1&quot; :b=&quot;false&quot; c=&quot;c&quot; :d=&quot;2&quot;&gt;&lt;/abc&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;...&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<p>那么我们可以访问 abc 组件实例中的 <code>$attrs</code> 获取到：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    d: 2</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>因为属性 <code>d</code> 没有在 abc 组件的 <code>props</code> 中。</p>
+<h4 id="关于-inheritAttrs"><a href="#关于-inheritAttrs" class="headerlink" title="关于 inheritAttrs"></a>关于 inheritAttrs</h4><p>如果 <code>d</code> 的值在模板中以普通 HTML attrs 的方式传入：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line">&lt;abc :a=&quot;1&quot; :b=&quot;false&quot; c=&quot;c&quot; d=&quot;2&quot;&gt;&lt;/abc&gt;</span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+<p>我们同样可以在 <code>$attrs</code> 中获取到属性 <code>d</code>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    d: &quot;2&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>但是我们也可以在真实 DOM 树中看到：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"><span class="tag">&lt;<span class="name">div</span> <span class="attr">data-v-abc12345</span> <span class="attr">d</span>=<span class="string">"2"</span>&gt;</span></span><br><span class="line">...</span><br><span class="line"><span class="tag">&lt;/<span class="name">div</span>&gt;</span></span><br><span class="line">...</span><br></pre></td></tr></table></figure></p>
+<p>这个属性被应用此组件在真实 DOM 的根元素上。如果你不希望这样的情况发生，则可以设置组件的 <code>inheritAttrs</code> 值为 <code>false</code>。</p>
+<h3 id="listeners"><a href="#listeners" class="headerlink" title="$listeners"></a>$listeners</h3><p><code>$listeners</code> 跟 <code>$attrs</code> 比较相似，<code>$listeners</code> 可以获取到父作用域在此组件上设置的所有事件监听（但不包括 <code>.native</code> 修饰器的），比如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">    &lt;abc @click=&quot;clickHandle&quot; @update-value=&quot;update&quot;&gt;&lt;/abc&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;...&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<p>那么 abc 实例的 <code>$listeners</code> 为<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &apos;click&apos;: Function</span><br><span class="line">    &apos;update-val&apos;: Function</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这些 <code>Function</code> 都是父作用域上所定义的函数对象。</p>
+<h3 id="怎么用"><a href="#怎么用" class="headerlink" title="怎么用"></a>怎么用</h3><p>我们知道：Vue 模板中的指令 <code>v-bind</code> 与 <code>v-on</code> 都支持传入对象，因此有：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">v-bind=&quot;$props&quot;</span><br><span class="line">v-bind=&quot;$attrs&quot;</span><br><span class="line">v-on=&quot;$listeners&quot;</span><br></pre></td></tr></table></figure></p>
+<p>结合此特性，再加上三剑客各自的特点，我们可以更方便地写出 Vue 的高阶组件。</p>
+<p>此外，对于 <code>$props</code>，<a href="https://github.com/vuejs/vue/issues/4571" target="_blank" rel="noopener">官方 github repo</a> 上还有一个很好的例子：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&lt;template&gt;</span><br><span class="line">  &lt;modal v-bind=&quot;$props&quot;&gt;</span><br><span class="line">    &lt;input v-model=&quot;inputValue&quot; :placeholder=&quot;placeholder&quot; /&gt;</span><br><span class="line">  &lt;/modal&gt;</span><br><span class="line">&lt;/template&gt;</span><br><span class="line"></span><br><span class="line">&lt;script&gt;</span><br><span class="line">import Modal from &apos;./Modal.vue&apos;</span><br><span class="line"></span><br><span class="line">export default &#123;</span><br><span class="line">  props: &#123;</span><br><span class="line">    ...Modal.props,</span><br><span class="line">    value: &#123;&#125;,</span><br><span class="line">    placeholder: String,</span><br><span class="line">  &#125;,</span><br><span class="line"></span><br><span class="line">  // ...</span><br><span class="line">&#125;</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure></p>
+<h3 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h3><ul>
+<li><a href="https://cn.vuejs.org/v2/api" target="_blank" rel="noopener">Vue.js API 文档</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/25623356" target="_blank" rel="noopener">Vue.js 实用技巧</a></li>
+</ul>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/blog/categories/tech/">技术</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/blog/tags/Vue/">Vue</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 Martin Yong
+    
+  </p>
+</footer>
+    
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-143426112-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+  </div>
+</div>
+</body>
+</html>

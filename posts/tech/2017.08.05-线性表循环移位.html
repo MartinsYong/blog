@@ -1,0 +1,183 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>线性表循环移位 | Martin | 爱设计，爱创造|To design and create</title>
+
+  
+  <meta name="author" content="Martin Yong">
+  
+
+  
+  <meta name="description" content="Simple Art">
+  
+
+  
+  
+  <meta name="keywords" content="c">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="线性表循环移位">
+
+  <meta property="og:site_name" content="Martin">
+
+  
+  <meta property="og:image" content="/blog/favicon.ico">
+  
+
+  <link href="/blog/favicon.ico" rel="icon">
+  <link rel="alternate" href="/blog/atom.xml" title="Martin" type="application/atom+xml">
+  <link rel="stylesheet" href="/blog/css/style.css" media="screen" type="text/css">
+  <!-- ketax style -->
+  <link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/blog/">Martin</a>
+    </h1>
+    <p class="site-description">爱设计，爱创造|To design and create</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/blog/">主页</a></li>
+      
+        <li><a href="/blog/archives">归档</a></li>
+      
+        <li><a href="/blog/categories/tech">技术</a></li>
+      
+        <li><a href="/blog/categories/life">生活</a></li>
+      
+        <li><a href="/blog/categories/casual">随笔</a></li>
+      
+        <li><a href="/blog/categories/project">项目</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>线性表循环移位</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/blog/posts/tech/2017.08.05-线性表循环移位.html" rel="bookmark">
+        <time class="entry-date published" datetime="2017-08-05T11:42:35.000Z">
+          2017-08-05
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="这是一道经典算法题"><a href="#这是一道经典算法题" class="headerlink" title="这是一道经典算法题"></a>这是一道经典算法题</h2><blockquote>
+<p>将数组中An中的元素<em>A[0]</em>至<em>A[n-1]</em>循环右移k位，并要求只用一个元素大小的附加存储，元素移动或交换的次数为<br><em>O(n)</em>。</p>
+</blockquote>
+<a id="more"></a>
+<h3 id="解读"><a href="#解读" class="headerlink" title="解读"></a>解读</h3><p>题目的意思很容易理解，即将数组中所有元素循环右移k位。比如，<em>abcd1234</em>循环右移4位为<em>1234abcd</em>。其中要求时间复杂度为<em>O(n)</em>,空间复杂度为<em>O(1)</em>。</p>
+<h2 id="解法"><a href="#解法" class="headerlink" title="解法"></a>解法</h2><h3 id="经典算法"><a href="#经典算法" class="headerlink" title="经典算法"></a>经典算法</h3><ol>
+<li>先将前 <em>n-k</em> 个元素倒置，即为<em>dcba1234</em></li>
+<li>再将后面所有剩余元素倒置，即为<em>dcba4321</em></li>
+<li>最后将整体所有元素倒置，即为<em>1234abcd</em></li>
+</ol>
+<p>公式为：<br><code>XY-&gt;YX = (X-1Y-1)-1</code>，其中-1为倒置</p>
+<p>毫无疑问，此解法最佳。代码略。</p>
+<h3 id="另一算法"><a href="#另一算法" class="headerlink" title="另一算法"></a>另一算法</h3><p>此算法原先是笔者认真思考得来，符合题目要求。后来经过网上求证，无独有偶，发现相似的算法，而且更加详细精密。</p>
+<h4 id="笔者思路"><a href="#笔者思路" class="headerlink" title="笔者思路"></a>笔者思路</h4><ul>
+<li>时间复杂度要为O(n)，每个元素必须只能移动一次，即<em>i</em>元素只能一次移动到<em>(i+k)%n</em>元素的位置上</li>
+<li>移动时<em>(i+k)%n</em>元素必须缓存起来</li>
+<li>为原来的<em>(i+k)%n</em>元素进行移动操作，移动到<br><em>(i+2k)%n</em>元素的位置上</li>
+<li>缓存<em>(i+2k)%n</em>元素</li>
+<li>如此重复</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">rightShift</span><span class="params">(<span class="keyword">int</span> a[], <span class="keyword">int</span> n, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//移动k位和k%n位是一致的</span></span><br><span class="line">    <span class="keyword">if</span>(!(k=k%n)) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">int</span> temp;</span><br><span class="line">    <span class="comment">//初始化，从第一个元素开始</span></span><br><span class="line">    <span class="keyword">int</span> j = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> buff = a[j];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i) &#123;</span><br><span class="line">        j = (j+k)%n;</span><br><span class="line">        temp = a[j];</span><br><span class="line">        a[j] = buff;</span><br><span class="line">        <span class="comment">//将第(j+k)%n元素存入buff</span></span><br><span class="line">        buff = temp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>你会发现以上算法的结果可能是错的。比如n=4，k=2的时候，它只会为其中两个元素进行移位，即第0号元素和第2号元素。下面进行修正。</p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">rightShift</span><span class="params">(<span class="keyword">int</span> a[], <span class="keyword">int</span> n, <span class="keyword">int</span> k)</span> </span>&#123;</span><br><span class="line">    <span class="comment">//移动k位和k%n位是一致的</span></span><br><span class="line">    <span class="keyword">if</span>(!(k=k%n)) <span class="keyword">return</span>;</span><br><span class="line">    <span class="keyword">int</span> temp;</span><br><span class="line">    <span class="comment">//初始化，从第一个元素开始</span></span><br><span class="line">    <span class="keyword">int</span> j = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> s = j;</span><br><span class="line">    <span class="keyword">int</span> buff = a[j];</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; n; ++i) &#123;</span><br><span class="line">        j = (j+k)%n;</span><br><span class="line">        temp = a[j];</span><br><span class="line">        a[j] = buff;</span><br><span class="line">        <span class="comment">//将第(j+k)%n元素存入buff</span></span><br><span class="line">        buff = temp;</span><br><span class="line">        <span class="comment">//重复修正,进入下个循环群</span></span><br><span class="line">        <span class="keyword">if</span>(j == s) &#123;</span><br><span class="line">            j = (j+<span class="number">1</span>)%n;</span><br><span class="line">            s = j;</span><br><span class="line">            buff = a[j];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="网上某文章对于此问题的详细解答"><a href="#网上某文章对于此问题的详细解答" class="headerlink" title="网上某文章对于此问题的详细解答"></a>网上某文章对于此问题的详细解答</h4><p>如刚才所提到的，当n=4，k=2时，第一个程序只会为A[0]、A[2]进行移位，并且重复1次，刚好共移动了4次。因此A[1]、A[3]原封不动，未到达正确位置。</p>
+<p>此情况的循环群有两个0、2和1、3，第一个程序只进入第一个循环群却没有进入另外一个，因此要进行重复修正。经过推算，我们可以得知循环群的个数则为k、n的最大公约数。比如n=10，k=3时循环群数为1，则不需要进行重复修正。此结论可以通过重复修正的次数进行验证。</p>
+<h2 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h2><p><a href="http://blog.thpiano.com/?p=251" target="_blank" rel="noopener">数组循环移位，你能想到多少种算法？</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/blog/categories/tech/">技术</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/blog/tags/c/">c</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 Martin Yong
+    
+  </p>
+</footer>
+    
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-143426112-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+  </div>
+</div>
+</body>
+</html>

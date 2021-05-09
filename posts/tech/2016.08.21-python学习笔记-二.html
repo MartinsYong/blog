@@ -1,0 +1,239 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>python学习笔记(二) | Martin | 爱设计，爱创造|To design and create</title>
+
+  
+  <meta name="author" content="Martin Yong">
+  
+
+  
+  <meta name="description" content="Simple Art">
+  
+
+  
+  
+  <meta name="keywords" content="python">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="python学习笔记(二)">
+
+  <meta property="og:site_name" content="Martin">
+
+  
+  <meta property="og:image" content="/blog/favicon.ico">
+  
+
+  <link href="/blog/favicon.ico" rel="icon">
+  <link rel="alternate" href="/blog/atom.xml" title="Martin" type="application/atom+xml">
+  <link rel="stylesheet" href="/blog/css/style.css" media="screen" type="text/css">
+  <!-- ketax style -->
+  <link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/blog/">Martin</a>
+    </h1>
+    <p class="site-description">爱设计，爱创造|To design and create</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/blog/">主页</a></li>
+      
+        <li><a href="/blog/archives">归档</a></li>
+      
+        <li><a href="/blog/categories/tech">技术</a></li>
+      
+        <li><a href="/blog/categories/life">生活</a></li>
+      
+        <li><a href="/blog/categories/casual">随笔</a></li>
+      
+        <li><a href="/blog/categories/project">项目</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>python学习笔记(二)</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/blog/posts/tech/2016.08.21-python学习笔记-二.html" rel="bookmark">
+        <time class="entry-date published" datetime="2016-08-21T10:50:03.000Z">
+          2016-08-21
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h3 id="共享引用"><a href="#共享引用" class="headerlink" title="共享引用"></a>共享引用</h3><h4 id="示例（shell模式）"><a href="#示例（shell模式）" class="headerlink" title="示例（shell模式）"></a>示例（shell模式）</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">1</span>]:a = <span class="number">3</span></span><br><span class="line">In [<span class="number">2</span>]:b = a</span><br><span class="line">In [<span class="number">3</span>]:a == b</span><br><span class="line">Out[<span class="number">3</span>]:<span class="literal">True</span></span><br><span class="line">In [<span class="number">4</span>]:a <span class="keyword">is</span> b</span><br><span class="line">Out[<span class="number">4</span>]<span class="literal">True</span></span><br></pre></td></tr></table></figure>
+<p>这两句语句的实际效果就是变量a和b都引用了相同的对象（也就是说，都指向了<strong>相同的内存空间</strong>）<br><a id="more"></a></p>
+<h4 id="示例（shell模式）-1"><a href="#示例（shell模式）-1" class="headerlink" title="示例（shell模式）"></a>示例（shell模式）</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">5</span>]:a = <span class="number">3</span></span><br><span class="line">In [<span class="number">6</span>]:b = a</span><br><span class="line">In [<span class="number">7</span>]:a = <span class="string">'spam'</span></span><br><span class="line">In [<span class="number">8</span>]:a == b</span><br><span class="line">Out[<span class="number">8</span>]:<span class="literal">False</span></span><br><span class="line">In [<span class="number">9</span>]:a <span class="keyword">is</span> b</span><br><span class="line">Out[<span class="number">10</span>]:<span class="literal">False</span></span><br></pre></td></tr></table></figure>
+<p>变量a引用了由常量表达式‘spam’所创建的新对象，但是变量b仍然引用原始对象3。</p>
+<h4 id="示例（shell模式）-2"><a href="#示例（shell模式）-2" class="headerlink" title="示例（shell模式）"></a>示例（shell模式）</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">11</span>]:L1 = [<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line">In [<span class="number">12</span>]:L2 = L1</span><br><span class="line">In [<span class="number">13</span>]:L1[<span class="number">0</span>] = <span class="number">24</span></span><br><span class="line">In [<span class="number">14</span>]:L1</span><br><span class="line">Out[<span class="number">14</span>]:[<span class="number">24</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line">In [<span class="number">15</span>]:L2</span><br><span class="line">Out[<span class="number">15</span>]:[<span class="number">24</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br></pre></td></tr></table></figure>
+<p>在这里，没有改变L1，而是改变了L1所引用的对象的一个元素。L1与L2<strong>依然指向同一对象</strong>，所以对L1、L2都有影响。实际上L2并没有改变，但是它的值发生了变化。</p>
+<h4 id="示例（shell模式）-3"><a href="#示例（shell模式）-3" class="headerlink" title="示例（shell模式）"></a>示例（shell模式）</h4><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">16</span>]:L1 = [<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line">In [<span class="number">17</span>]:L2 = [:]</span><br><span class="line">In [<span class="number">18</span>]:L1[<span class="number">0</span>] = <span class="number">24</span></span><br><span class="line">In [<span class="number">19</span>]:L1</span><br><span class="line">Out[<span class="number">19</span>]:[<span class="number">24</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br><span class="line">In [<span class="number">20</span>]:L2</span><br><span class="line">Out[<span class="number">20</span>]:[<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>]</span><br></pre></td></tr></table></figure>
+<p>这里L2引用的是L1所引用对象的一个拷贝。也就是说，两个变量都指向了<strong>不同的内存区域</strong>。如<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">### raw字符串抑制转义</span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line">In [21]:myfile = open(&apos;C:\new\text.dat&apos;,&apos;w&apos;)</span><br></pre></td></tr></table></figure></p>
+<p>一般会认为将会打开C:\new目录下的text.dat文件。问题是这里有’\n’和’\t’。结果是，这个调用时尝试打开一个名为C:（换行）ew（制表符）ext.dat的文件。<br>所以要这样：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">22</span>]:myfile = open(<span class="string">r'C:\new\text.dat'</span>,<span class="string">'w'</span>)</span><br></pre></td></tr></table></figure></p>
+<p>相当于：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">23</span>]:myfile = open(<span class="string">'C:\\new\\text.dat'</span>,<span class="string">'w'</span>)</span><br></pre></td></tr></table></figure></p>
+<p>用<strong>两个</strong>反斜线区保留反斜杠。</p>
+<h3 id="字符串格式符"><a href="#字符串格式符" class="headerlink" title="字符串格式符"></a>字符串格式符</h3><p>格式符为真实值预留位置，并控制显示的格式。格式符可以包含有一个<strong>类型码</strong>，用以控制显示的类型，如下:</p>
+<table>
+<thead>
+<tr>
+<th>格式符</th>
+<th>效果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>%s</td>
+<td>字符串 (采用str()的显示)</td>
+</tr>
+<tr>
+<td>%r</td>
+<td>字符串 (采用repr()的显示)</td>
+</tr>
+<tr>
+<td>%c</td>
+<td>单个字符</td>
+</tr>
+<tr>
+<td>%b</td>
+<td>二进制整数</td>
+</tr>
+<tr>
+<td>%d</td>
+<td>十进制整数</td>
+</tr>
+<tr>
+<td>%i</td>
+<td>十进制整数</td>
+</tr>
+<tr>
+<td>%o</td>
+<td>八进制整数</td>
+</tr>
+<tr>
+<td>%x</td>
+<td>十六进制整数</td>
+</tr>
+<tr>
+<td>%e</td>
+<td>指数 (基底写为e)</td>
+</tr>
+<tr>
+<td>%E</td>
+<td>指数 (基底写为E)</td>
+</tr>
+<tr>
+<td>%f</td>
+<td>浮点数</td>
+</tr>
+<tr>
+<td>%F</td>
+<td>浮点数，与上相同</td>
+</tr>
+<tr>
+<td>%g</td>
+<td>指数(e)或浮点数 (根据显示长度)</td>
+</tr>
+<tr>
+<td>%G</td>
+<td>指数(E)或浮点数 (根据显示长度)</td>
+</tr>
+<tr>
+<td>%%</td>
+<td>字符”%”</td>
+</tr>
+</tbody>
+</table>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/blog/categories/tech/">技术</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/blog/tags/python/">python</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 Martin Yong
+    
+  </p>
+</footer>
+    
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-143426112-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+  </div>
+</div>
+</body>
+</html>

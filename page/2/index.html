@@ -1,0 +1,423 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>第 2 页 | Martin | 爱设计，爱创造|To design and create</title>
+
+  
+  <meta name="author" content="Martin Yong">
+  
+
+  
+  <meta name="description" content="Simple Art">
+  
+
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  
+
+  <meta property="og:site_name" content="Martin">
+
+  
+  <meta property="og:image" content="/blog/favicon.ico">
+  
+
+  <link href="/blog/favicon.ico" rel="icon">
+  <link rel="alternate" href="/blog/atom.xml" title="Martin" type="application/atom+xml">
+  <link rel="stylesheet" href="/blog/css/style.css" media="screen" type="text/css">
+  <!-- ketax style -->
+  <link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/blog/">Martin</a>
+    </h1>
+    <p class="site-description">爱设计，爱创造|To design and create</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/blog/">主页</a></li>
+      
+        <li><a href="/blog/archives">归档</a></li>
+      
+        <li><a href="/blog/categories/tech">技术</a></li>
+      
+        <li><a href="/blog/categories/life">生活</a></li>
+      
+        <li><a href="/blog/categories/casual">随笔</a></li>
+      
+        <li><a href="/blog/categories/project">项目</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/blog/posts/tech/2019.09.14-Vue的tips与tricks.html"><span>Vue 的 tips 与 tricks</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/blog/posts/tech/2019.09.14-Vue的tips与tricks.html" rel="bookmark">
+        <time class="entry-date published" datetime="2019-09-14T15:11:32.000Z">
+          2019-09-14
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>下面介绍一些 Vue 实用的姿势与技巧。</p>
+<h4 id="tip-妙用-watchers"><a href="#tip-妙用-watchers" class="headerlink" title="[tip] 妙用 watchers"></a>[tip] 妙用 watchers</h4><p>在 watchers 中，可以直接使用函数的字面量名称；其次，声明 <code>immediate:true</code> 表示创建组件时立马执行一次</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">watch: &#123;</span><br><span class="line">    searchInputValue:&#123;</span><br><span class="line">        handler: <span class="string">'fetchPostList'</span>,</span><br><span class="line">        immediate: <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/blog/categories/tech/">技术</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/blog/tags/Vue/">Vue</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/blog/posts/tech/2019.09.08-二叉树之蛇形遍历.html"><span>二叉树之蛇形遍历</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/blog/posts/tech/2019.09.08-二叉树之蛇形遍历.html" rel="bookmark">
+        <time class="entry-date published" datetime="2019-09-08T03:31:21.000Z">
+          2019-09-08
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h3 id="原题"><a href="#原题" class="headerlink" title="原题"></a>原题</h3><p>这是一道关于二叉树遍历的题目：<a href="https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/" target="_blank" rel="noopener">leetcode-103</a></p>
+<blockquote>
+<p>给定一个二叉树，返回其节点值的锯齿形层次遍历。（即先从左往右，再从右往左进行下一层遍历，以此类推，层与层之间交替进行）。</p>
+</blockquote>
+<p>例如 <code>[3,9,20,null,null,15,7]</code>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">  3</span><br><span class="line"> / \</span><br><span class="line">9  20</span><br><span class="line">  /  \</span><br><span class="line"> 15   7</span><br></pre></td></tr></table></figure></p>
+<p>则返回：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  [3],</span><br><span class="line">  [20,9],</span><br><span class="line">  [15,7]</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/blog/categories/tech/">技术</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/blog/tags/算法/">算法</a><a href="/blog/tags/树/">树</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/blog/posts/tech/2019.08.25-Vue组件生命周期交叠.html"><span>Vue 组件生命周期交叠</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/blog/posts/tech/2019.08.25-Vue组件生命周期交叠.html" rel="bookmark">
+        <time class="entry-date published" datetime="2019-08-25T06:31:21.000Z">
+          2019-08-25
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h3 id="引子"><a href="#引子" class="headerlink" title="引子"></a>引子</h3><p>笔者这周在开发上面遇到了一个 Vue 的问题，就是文章标题所提到的。笔者觉得这个问题非常普遍，但是鲜有资料，所以拿出来分享并一起探讨一下。</p>
+<p>首先，说一下当时问题发生的一个具体的场景：</p>
+<ol>
+<li>不同页面组件都需监听只由父组件触发的特定事件（如 <code>myevent</code>）</li>
+<li>这些页面组件在同一时间内只会挂载一个</li>
+<li>当前页面在此事件触发之后需要实现特定的业务逻辑</li>
+</ol>
+<p>那好，实现这样的场景需求其实也挺简单：只需在各个页面组件创建时监听这个事件，销毁时取消监听就可以了。</p>
+<p>然而，问题出现了。</p>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/blog/categories/tech/">技术</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/blog/tags/Vue/">Vue</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/blog/posts/tech/2019.08.18-LeetCode题：买卖股票的最佳时机.html"><span>LeetCode题：买卖股票的最佳时机</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/blog/posts/tech/2019.08.18-LeetCode题：买卖股票的最佳时机.html" rel="bookmark">
+        <time class="entry-date published" datetime="2019-08-18T05:31:21.000Z">
+          2019-08-18
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>记录一道 LeetCode 题的个人思路及其演进过程。</p>
+<p>该题出自 <a href="https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock/" target="_blank" rel="noopener">LeetCode 121</a>。</p>
+<h3 id="问题描述"><a href="#问题描述" class="headerlink" title="问题描述"></a>问题描述</h3><blockquote>
+<p>给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。</p>
+<p>如果你最多只允许完成一笔交易（即买入和卖出一支股票），设计一个算法来计算你所能获取的最大利润。</p>
+<p>注意你不能在买入股票前卖出股票。</p>
+</blockquote>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/blog/categories/tech/">技术</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/blog/tags/算法/">算法</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/blog/posts/tech/2019.08.09-深入理解宏任务与微任务.html"><span>深入理解宏任务与微任务</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/blog/posts/tech/2019.08.09-深入理解宏任务与微任务.html" rel="bookmark">
+        <time class="entry-date published" datetime="2019-08-09T13:50:30.000Z">
+          2019-08-09
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>本文章以浏览器环境为主。</p>
+<h3 id="先从三道题目说起"><a href="#先从三道题目说起" class="headerlink" title="先从三道题目说起"></a>先从三道题目说起</h3><h5 id="1-宏任务有哪些？微任务有哪些？请各举几个。"><a href="#1-宏任务有哪些？微任务有哪些？请各举几个。" class="headerlink" title="1. 宏任务有哪些？微任务有哪些？请各举几个。"></a>1. 宏任务有哪些？微任务有哪些？请各举几个。</h5><h5 id="2-定时器真的是按照设定的时间定时执行吗？为什么？"><a href="#2-定时器真的是按照设定的时间定时执行吗？为什么？" class="headerlink" title="2. 定时器真的是按照设定的时间定时执行吗？为什么？"></a>2. 定时器真的是按照设定的时间定时执行吗？为什么？</h5><h5 id="3-什么是宏任务？什么是微任务？它们之间怎么界定？请说说你的理解。"><a href="#3-什么是宏任务？什么是微任务？它们之间怎么界定？请说说你的理解。" class="headerlink" title="3. 什么是宏任务？什么是微任务？它们之间怎么界定？请说说你的理解。"></a>3. 什么是宏任务？什么是微任务？它们之间怎么界定？请说说你的理解。</h5><p>这三道题由浅入深，读者可以先思考一下。</p>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/blog/categories/tech/">技术</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/blog/tags/javascript/">javascript</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+
+
+<nav class="pagination">
+  
+  <a href="/blog/" class="pagination-prev">上一页</a>
+  
+  
+  <a href="/blog/page/3/" class="pagination-next">下一页</a>
+  
+</nav>
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 Martin Yong
+    
+  </p>
+</footer>
+    
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-143426112-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>python学习笔记(四) | Martin | 爱设计，爱创造|To design and create</title>
+
+  
+  <meta name="author" content="Martin Yong">
+  
+
+  
+  <meta name="description" content="Simple Art">
+  
+
+  
+  
+  <meta name="keywords" content="python">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="python学习笔记(四)">
+
+  <meta property="og:site_name" content="Martin">
+
+  
+  <meta property="og:image" content="/blog/favicon.ico">
+  
+
+  <link href="/blog/favicon.ico" rel="icon">
+  <link rel="alternate" href="/blog/atom.xml" title="Martin" type="application/atom+xml">
+  <link rel="stylesheet" href="/blog/css/style.css" media="screen" type="text/css">
+  <!-- ketax style -->
+  <link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/blog/">Martin</a>
+    </h1>
+    <p class="site-description">爱设计，爱创造|To design and create</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/blog/">主页</a></li>
+      
+        <li><a href="/blog/archives">归档</a></li>
+      
+        <li><a href="/blog/categories/tech">技术</a></li>
+      
+        <li><a href="/blog/categories/life">生活</a></li>
+      
+        <li><a href="/blog/categories/casual">随笔</a></li>
+      
+        <li><a href="/blog/categories/project">项目</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>python学习笔记(四)</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/blog/posts/tech/2017.03.13-python学习笔记-四.html" rel="bookmark">
+        <time class="entry-date published" datetime="2017-03-13T09:26:24.000Z">
+          2017-03-13
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h3 id="工厂函数"><a href="#工厂函数" class="headerlink" title="工厂函数"></a>工厂函数</h3><p>一个能够记住嵌套作用域的变量值的函数，尽管那个作用域或许已经不存在了。</p>
+<p>例如，工厂函数有时需要及时生成事件处理、实时对不同情况进行反馈的程序中。例如：</p>
+<a id="more"></a>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">1</span>]:<span class="function"><span class="keyword">def</span> <span class="title">maker</span><span class="params">(N)</span>:</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">action</span><span class="params">(X)</span>:</span></span><br><span class="line">            <span class="keyword">return</span> X**N</span><br><span class="line">        <span class="keyword">return</span> action</span><br></pre></td></tr></table></figure>
+<p>这定义了一个外表的函数，这个函数简单地生成了一个嵌套的函数，却并不调用这个内嵌的函数。如果我们调用外部的函数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">2</span>]:f = maker(<span class="number">2</span>)</span><br><span class="line">In [<span class="number">3</span>]:f</span><br><span class="line">Out[<span class="number">3</span>]:&lt;function action at <span class="number">0x0</span>......&gt;</span><br></pre></td></tr></table></figure>
+<p>我们得到的是生成的内嵌函数的一个引用。这个内嵌函数是通过运行内嵌的def而创建的。如果现在调用从外表得到的那个函数：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">4</span>]:f(<span class="number">3</span>)</span><br><span class="line">Out[<span class="number">4</span>]:<span class="number">9</span></span><br><span class="line">In [<span class="number">5</span>]:f(<span class="number">4</span>)</span><br><span class="line">Out[<span class="number">5</span>]:<span class="number">16</span></span><br></pre></td></tr></table></figure>
+<p>实际上，在本地作用域内的<em>N</em>被作为执行的状态信息保留了下来，我们返回其参数的平方运算。现在，如果再调用外层的函数，将得到一个新的有不同状态信息的嵌套函数——得到了参数的三次方而不是平方，但是最初的仍像往常一样是平方。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">In [<span class="number">6</span>]:g = maker(<span class="number">3</span>)</span><br><span class="line">In [<span class="number">7</span>]:g(<span class="number">3</span>)</span><br><span class="line">Out[<span class="number">7</span>]:<span class="number">27</span></span><br><span class="line">In [<span class="number">8</span>]:f(<span class="number">3</span>)</span><br><span class="line">Out[<span class="number">8</span>]:<span class="number">9</span></span><br></pre></td></tr></table></figure>
+<h3 id="LEGB原则"><a href="#LEGB原则" class="headerlink" title="LEGB原则"></a>LEGB原则</h3><p>对于一个def语句：</p>
+<ol>
+<li>变量名引用分为桑作用域进行查找：首先是本地，之后是函数内（如果有的话），之后全局，最后是内置。</li>
+<li>在默认情况下，变量名赋值会创建或者改变本地变量。</li>
+<li>全局声明和非本地声明将赋值的变量名映射到模块文件内部的作用域。</li>
+<li>Python 的变量名解析机制也称为 LEGB 法则，具体如下：当在函数中使用未确定的变量名时，Python 搜索 4 个作用域：本地作用域（L），之后是上一层嵌套结构中<strong>def</strong>或<strong>lambda</strong>的本地作用域（E），之后是全局作用域（G），最后是内置作用域（B）。按这个查找原则，在第一处找到的地方停止。如果没有找到，Python会报错的。</li>
+</ol>
+<p><img src="http://note.youdao.com/yws/public/resource/113e0fe5a3b748ab7ad319ffa5af2995/xmlnote/WEBc7fc85be8fd875766380298d9cbd29ed/7DFAD95FF01947CABC2548A6CB174D5E/159" alt="legb"></p>
+<h3 id="特定的参数匹配模型"><a href="#特定的参数匹配模型" class="headerlink" title="特定的参数匹配模型"></a>特定的参数匹配模型</h3><h4 id="基础"><a href="#基础" class="headerlink" title="基础"></a>基础</h4><ul>
+<li>位置：从左到右。通过位置进行匹配把参数值传递给函数头部的参数名称，匹配顺序从左到右。</li>
+<li>关键字参数：通过参数名进行匹配。调用者可以定义哪一个函数接受这个值，通过在调用时使用参数的变量名，使用<code>name=Value</code>这种语法。</li>
+<li>默认参数：为没有传入值的参数定义参数值。如果调用时传入的值过于少的话，函数能够为参数定义接受的默认值，再一次使用语法<code>name=value</code>。</li>
+<li>可变参数：手机任意多基于位置或者关键字的参数。函数能够使用特定的参数，它们是以字符*开头，收集任意多的额外参数。</li>
+<li>可变参数解包：传递任意多的基于位置或者关键字的参数。调用者能够再使用<code>*</code>语法去将参数集合打散，分成参数。这个<code>*</code>与在函数头部的<code>*</code>恰恰相反：在函数头部它意味着收集任意多的参数，而在调用者中意味着传递任意多的参数。</li>
+<li>Keyword-only参数：参数必须按照名称传递。在py3中，函数也可以指定参数，参数必须用带有关键参数的名字（而不是位置）来传递。这样的参数通常用定义世纪参数以外的配置选项。</li>
+</ul>
+<p><img src="http://note.youdao.com/yws/public/resource/113e0fe5a3b748ab7ad319ffa5af2995/xmlnote/WEBc7fc85be8fd875766380298d9cbd29ed/9FE9F891C8564E85B7337D5291840C36/184" alt="param_bind"></p>
+<h4 id="细节"><a href="#细节" class="headerlink" title="细节"></a>细节</h4><p>匹配顺序法则：</p>
+<ol>
+<li>在函数调用中，参数必须以此顺序出现：任何位置参数（value），后面跟着任何关键字参数（name=value）和<code>*sequence</code>形式的组合，后面跟着<code>**dict</code>形式。</li>
+<li>在函数头部，参数必须以此顺序出现：任何一般参数（name），紧跟着任何默认参数（name=value），如果有的话，后面是<code>*name</code>（或者在py3中是<code>*</code>）的形式，后面跟着任何name&amp;name=value keyword-only参数（在py3中），后面跟着<code>**</code>形式。</li>
+</ol>
+<p>匹配步骤：</p>
+<ol>
+<li>通过位置分配非关键字参数。</li>
+<li>通过匹配变量名分配关键字参数。</li>
+<li>其他额外的非关键字参数分配到*name元组中。</li>
+<li>其他额外的关键字参数分配到**name字典中。</li>
+<li>用默认值分配给头部未得到分配的参数。</li>
+</ol>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/blog/categories/tech/">技术</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/blog/tags/python/">python</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 Martin Yong
+    
+  </p>
+</footer>
+    
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-143426112-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+  </div>
+</div>
+</body>
+</html>

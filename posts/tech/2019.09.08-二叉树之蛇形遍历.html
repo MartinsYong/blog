@@ -1,0 +1,184 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>二叉树之蛇形遍历 | Martin | 爱设计，爱创造|To design and create</title>
+
+  
+  <meta name="author" content="Martin Yong">
+  
+
+  
+  <meta name="description" content="Simple Art">
+  
+
+  
+  
+  <meta name="keywords" content="算法,树">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="二叉树之蛇形遍历">
+
+  <meta property="og:site_name" content="Martin">
+
+  
+  <meta property="og:image" content="/blog/favicon.ico">
+  
+
+  <link href="/blog/favicon.ico" rel="icon">
+  <link rel="alternate" href="/blog/atom.xml" title="Martin" type="application/atom+xml">
+  <link rel="stylesheet" href="/blog/css/style.css" media="screen" type="text/css">
+  <!-- ketax style -->
+  <link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/blog/">Martin</a>
+    </h1>
+    <p class="site-description">爱设计，爱创造|To design and create</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/blog/">主页</a></li>
+      
+        <li><a href="/blog/archives">归档</a></li>
+      
+        <li><a href="/blog/categories/tech">技术</a></li>
+      
+        <li><a href="/blog/categories/life">生活</a></li>
+      
+        <li><a href="/blog/categories/casual">随笔</a></li>
+      
+        <li><a href="/blog/categories/project">项目</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>二叉树之蛇形遍历</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/blog/posts/tech/2019.09.08-二叉树之蛇形遍历.html" rel="bookmark">
+        <time class="entry-date published" datetime="2019-09-08T03:31:21.000Z">
+          2019-09-08
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h3 id="原题"><a href="#原题" class="headerlink" title="原题"></a>原题</h3><p>这是一道关于二叉树遍历的题目：<a href="https://leetcode-cn.com/problems/binary-tree-zigzag-level-order-traversal/" target="_blank" rel="noopener">leetcode-103</a></p>
+<blockquote>
+<p>给定一个二叉树，返回其节点值的锯齿形层次遍历。（即先从左往右，再从右往左进行下一层遍历，以此类推，层与层之间交替进行）。</p>
+</blockquote>
+<p>例如 <code>[3,9,20,null,null,15,7]</code>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">  3</span><br><span class="line"> / \</span><br><span class="line">9  20</span><br><span class="line">  /  \</span><br><span class="line"> 15   7</span><br></pre></td></tr></table></figure></p>
+<p>则返回：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  [3],</span><br><span class="line">  [20,9],</span><br><span class="line">  [15,7]</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<a id="more"></a>
+<p>很容易理解：一层层输出，奇数层从左到右，偶数则从右到左。</p>
+<p>下面，我们先从如何用 JavaScript 描述和构建二叉树开始着手。</p>
+<h3 id="二叉树-——-二叉链表描述"><a href="#二叉树-——-二叉链表描述" class="headerlink" title="二叉树 —— 二叉链表描述"></a>二叉树 —— 二叉链表描述</h3><p>二叉树最基本的元素是<strong>节点</strong>，它主要由三部分构成：</p>
+<ol>
+<li>值（数据）</li>
+<li>左子节点指针（引用）</li>
+<li>右子节点指针</li>
+</ol>
+<p>构造函数如下：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">BNode</span> (<span class="params">val</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">this</span>.val = val</span><br><span class="line">    <span class="comment">// 下面两个指针默认为 null</span></span><br><span class="line">    <span class="keyword">this</span>.left = <span class="literal">null</span></span><br><span class="line">    <span class="keyword">this</span>.right = <span class="literal">null</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h3 id="构建二叉树"><a href="#构建二叉树" class="headerlink" title="构建二叉树"></a>构建二叉树</h3><p>最简单的是先序构建：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">preorderCreateTree</span> (<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">const</span> d = arr.shift() <span class="comment">// 为了更好理解，就采用了 shift</span></span><br><span class="line">  <span class="keyword">if</span> (d === <span class="literal">null</span> || d === <span class="literal">undefined</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="comment">// 先构建本节点</span></span><br><span class="line">  <span class="keyword">const</span> t = <span class="keyword">new</span> BNode(d)</span><br><span class="line">  <span class="comment">// 构建左子树</span></span><br><span class="line">  t.left = preorderCreateTree(arr)</span><br><span class="line">  <span class="comment">// 构建右子树</span></span><br><span class="line">  t.right = preorderCreateTree(arr)</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> t</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这颗二叉树的先序构建序列是 <code>[3,9,null,null,20,15,null,null,7]</code>：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">  3</span><br><span class="line"> / \</span><br><span class="line">9  20</span><br><span class="line">  /  \</span><br><span class="line"> 15   7</span><br></pre></td></tr></table></figure></p>
+<p>然后这棵树还有一种构建序列是 <code>[3,9,20,null,null,15,7]</code>（上面已经提到），这种构建方法可以理解为：<br>一层层构建，先左后右。</p>
+<p>具体实现为：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">levelCreateTree</span> (<span class="params">arr</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">let</span> n;</span><br><span class="line">  <span class="keyword">let</span> i = <span class="number">0</span></span><br><span class="line">  <span class="keyword">let</span> d = arr[i++]</span><br><span class="line">  <span class="keyword">if</span> (!d) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">null</span></span><br><span class="line">  &#125;</span><br><span class="line">  <span class="keyword">const</span> rootNode = <span class="keyword">new</span> BNode(d)</span><br><span class="line">  <span class="keyword">let</span> queue = [rootNode]</span><br><span class="line">  <span class="keyword">while</span> (queue.length) &#123;</span><br><span class="line">    <span class="comment">// 出队</span></span><br><span class="line">    n = queue.shift()</span><br><span class="line">    <span class="keyword">if</span> (!n) <span class="keyword">continue</span></span><br><span class="line">    <span class="comment">// 先构建左子节点</span></span><br><span class="line">    d = arr[i++]</span><br><span class="line">    n.left = d ? <span class="keyword">new</span> BNode(d) : <span class="literal">null</span></span><br><span class="line">    queue.push(n.left)</span><br><span class="line">    <span class="comment">// 构建右子节点</span></span><br><span class="line">    d = arr[i++]</span><br><span class="line">    n.right = d ? <span class="keyword">new</span> BNode(d) : <span class="literal">null</span></span><br><span class="line">    queue.push(n.right)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> rootNode</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>现在，我们就能很好地解题测试了~</p>
+<h3 id="再回到题目"><a href="#再回到题目" class="headerlink" title="再回到题目"></a>再回到题目</h3><p>其实这道题就是二叉树层次遍历的变种，如果回到例子中，那么层次遍历会返回：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">[</span><br><span class="line">  [3],</span><br><span class="line">  [9,20],</span><br><span class="line">  [15,7]</span><br><span class="line">]</span><br></pre></td></tr></table></figure></p>
+<p>所以我们只需在层次遍历的基础上对偶数层进行反转即可。</p>
+<p>层次遍历的实现代码：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">levelOrder</span> (<span class="params">t</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!t) <span class="keyword">return</span> []</span><br><span class="line">  <span class="keyword">let</span> n</span><br><span class="line">  <span class="keyword">let</span> queue = [t]</span><br><span class="line">  <span class="keyword">let</span> res = []</span><br><span class="line">  <span class="keyword">let</span> curr</span><br><span class="line">  <span class="keyword">let</span> count</span><br><span class="line">  <span class="keyword">while</span> (queue.length) &#123;</span><br><span class="line">    <span class="comment">// 获取这一层的节点数</span></span><br><span class="line">    count = queue.length</span><br><span class="line">    curr = []</span><br><span class="line">    <span class="keyword">while</span> (count--) &#123;</span><br><span class="line">      n = queue.shift()</span><br><span class="line">      curr.push(n.val)</span><br><span class="line">      <span class="keyword">if</span> (n.left) queue.push(n.left)</span><br><span class="line">      <span class="keyword">if</span> (n.right) queue.push(n.right)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 存储当前层输出</span></span><br><span class="line">    res.push(curr)</span><br><span class="line">    <span class="comment">// 进入下一层……</span></span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>层次遍历的关键在于我们如何判断一层的结束（末尾）。上面实现的思路是：当前层遍历完毕后，我们就可以通过当前队列的长度去判断下一层的节点数。</p>
+<p>那么，蛇形输出就迎刃而解：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">zigzagLevelOrder</span> (<span class="params">t</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!t) <span class="keyword">return</span> []</span><br><span class="line">  <span class="keyword">let</span> n</span><br><span class="line">  <span class="keyword">let</span> queue = [t]</span><br><span class="line">  <span class="keyword">let</span> res = []</span><br><span class="line">  <span class="keyword">let</span> curr</span><br><span class="line">  <span class="keyword">let</span> count</span><br><span class="line">  <span class="keyword">while</span> (queue.length) &#123;</span><br><span class="line">    count = queue.length</span><br><span class="line">    curr = []</span><br><span class="line">    <span class="keyword">while</span> (count--) &#123;</span><br><span class="line">      n = queue.shift()</span><br><span class="line">      curr.push(n.val)</span><br><span class="line">      <span class="keyword">if</span> (n.left) queue.push(n.left)</span><br><span class="line">      <span class="keyword">if</span> (n.right) queue.push(n.right)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="comment">// 判断当前层奇偶</span></span><br><span class="line">    <span class="keyword">if</span> (!(res.length &amp; <span class="number">1</span>)) &#123;</span><br><span class="line">      <span class="comment">// 奇数层</span></span><br><span class="line">      res.push(curr)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      res.push(curr.reverse()) <span class="comment">// 反转</span></span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>还有我们可以改变实时遍历的策略，这样就不用对数组进行反转，大大减少时间复杂度：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">zigzagLevelOrder</span> (<span class="params">t</span>) </span>&#123;</span><br><span class="line">  <span class="keyword">if</span> (!t) <span class="keyword">return</span> []</span><br><span class="line">  <span class="keyword">let</span> n</span><br><span class="line">  <span class="keyword">let</span> queue = [t]</span><br><span class="line">  <span class="keyword">let</span> res = []</span><br><span class="line">  <span class="keyword">let</span> curr</span><br><span class="line">  <span class="keyword">let</span> count</span><br><span class="line">  <span class="keyword">while</span> (queue.length) &#123;</span><br><span class="line">    count = queue.length</span><br><span class="line">    curr = []</span><br><span class="line">    <span class="keyword">while</span> (count--) &#123;</span><br><span class="line">      n = queue.shift()</span><br><span class="line">      <span class="comment">// 判断当前层奇偶</span></span><br><span class="line">      <span class="keyword">if</span> (!(res.length &amp; <span class="number">1</span>)) &#123;</span><br><span class="line">        curr.push(n.val)</span><br><span class="line">      &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="comment">// 从数组头部压入</span></span><br><span class="line">        curr.unshift(n.val)</span><br><span class="line">      &#125;</span><br><span class="line">      <span class="keyword">if</span> (n.left) queue.push(n.left)</span><br><span class="line">      <span class="keyword">if</span> (n.right) queue.push(n.right)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    res.push(curr)</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="keyword">return</span> res</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/blog/categories/tech/">技术</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/blog/tags/算法/">算法</a><a href="/blog/tags/树/">树</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 Martin Yong
+    
+  </p>
+</footer>
+    
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-143426112-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+  </div>
+</div>
+</body>
+</html>

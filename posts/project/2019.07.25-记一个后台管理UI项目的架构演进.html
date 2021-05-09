@@ -1,0 +1,218 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>记一个后台管理UI项目的架构演进 | Martin | 爱设计，爱创造|To design and create</title>
+
+  
+  <meta name="author" content="Martin Yong">
+  
+
+  
+  <meta name="description" content="Simple Art">
+  
+
+  
+  
+  <meta name="keywords" content="前后端,工程">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="记一个后台管理UI项目的架构演进">
+
+  <meta property="og:site_name" content="Martin">
+
+  
+  <meta property="og:image" content="/blog/favicon.ico">
+  
+
+  <link href="/blog/favicon.ico" rel="icon">
+  <link rel="alternate" href="/blog/atom.xml" title="Martin" type="application/atom+xml">
+  <link rel="stylesheet" href="/blog/css/style.css" media="screen" type="text/css">
+  <!-- ketax style -->
+  <link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/blog/">Martin</a>
+    </h1>
+    <p class="site-description">爱设计，爱创造|To design and create</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/blog/">主页</a></li>
+      
+        <li><a href="/blog/archives">归档</a></li>
+      
+        <li><a href="/blog/categories/tech">技术</a></li>
+      
+        <li><a href="/blog/categories/life">生活</a></li>
+      
+        <li><a href="/blog/categories/casual">随笔</a></li>
+      
+        <li><a href="/blog/categories/project">项目</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>记一个后台管理UI项目的架构演进</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/blog/posts/project/2019.07.25-记一个后台管理UI项目的架构演进.html" rel="bookmark">
+        <time class="entry-date published" datetime="2019-07-25T12:11:12.000Z">
+          2019-07-25
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>去年年初，自己独自承担了公司一个嵌入式设备的后台管理界面的项目。整个项目经过了一年多的维护和改进，笔者感慨万千，遂成此文。</p>
+<p>虽说项目规模不大，但却是实打实地经历了几次工程架构的演变。接下来请让我一一道来。</p>
+<h2 id="初始"><a href="#初始" class="headerlink" title="初始"></a>初始</h2><p>刚开始，由于项目紧急，我并没有想太多，直接先用最熟悉的而且环境较容易搭建（公司设备系统问题）的 <strong>PHP</strong> 写起来。当然，当时公司还有一个要求是：全部代码加起来不能多于<strong>一兆</strong>（受限于存储容量）。</p>
+<a id="more"></a>
+<p>由于业务简单，我只用了一个页面来实现，前端导航都是用纯 CSS 来实现的。而且实际交付的时候，代码就只有两个文件：一个 CSS 文件、一个 PHP 文件（视图与业务混杂）。</p>
+<p>如此简陋紧凑的架构并不能支撑很久，很快就有客户表示了更多的需求。公司的项目经理那边也已经表示这个项目会一直运作发展。</p>
+<p>所以整个项目的架构亟需进化。</p>
+<h2 id="MVC"><a href="#MVC" class="headerlink" title="MVC"></a>MVC</h2><p>由于需要加入更多的功能，为了方便开发与维护，当时笔者第一时间就想到使用 MVC 框架。</p>
+<p>主要有三个原因：</p>
+<ol>
+<li>URL重载，统一路由管理</li>
+<li>视图与模型分离，降低耦合性，提高可重用性。</li>
+<li>具体落实开发流程和代码规范</li>
+</ol>
+<p>但是，受制于设备计算能力和存储容量，应该尽可能以<strong>轻量</strong>作为出发点进行选型和设计。</p>
+<h4 id="选型"><a href="#选型" class="headerlink" title="选型"></a>选型</h4><p>一说到 PHP MVC 框架，第一时间就会想到 Laravel 和 ThinkPHP。但很明显，设备完全支撑不了这类庞大的框架。还有，这类框架提供了大量功能，而实际上，其中的一大部分对于这个项目来说都不需要，比如数据库操作、消息队列、缓存等。</p>
+<p>所以，让我们把目光投向到<strong>微框架</strong>。社区中最有名的微框架大概是 Lumen 与 Slim，它们的最大的特点是短小精悍。然而，它们对于这个项目来说，依然是太大了（Lumen 超过 10 MB，Slim 加上模板引擎接近 700 KB）。</p>
+<p>最后，笔者找到了 <a href="http://flightphp.com/" target="_blank" rel="noopener">Flight</a>：一个微型、可拓展的 PHP 框架。</p>
+<p>当然，除了体积小（200 KB 以内）之外，选用 Flight 还有其他原因：</p>
+<ol>
+<li>现代风格的路由声明（跟上面那些框架一样）</li>
+<li>可拓展，请看：<a href="http://flightphp.com/learn/#extending" target="_blank" rel="noopener">Extending</a></li>
+<li>全局 Collection，可作 configuration 以及简单的缓存</li>
+<li>自带简单够用的模板渲染功能</li>
+</ol>
+<h4 id="重新设计"><a href="#重新设计" class="headerlink" title="重新设计"></a>重新设计</h4><p>这方面笔者就不叙述太多，设计思想都大同小异。直接给出大概的目录结构，相信大家都有所了解。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">|-app 主要的项目代码</span><br><span class="line">    |-model 模型文件</span><br><span class="line">    |-view  视图文件</span><br><span class="line">    |-Controller.php  控制器</span><br><span class="line">    |-routes.php  路由</span><br><span class="line">    |-Utils.php  工具函数库（比如表单验证）</span><br><span class="line">|-flight php框架</span><br><span class="line">|-static 存放静态资源</span><br><span class="line">|-index.php 项目入口文件（模块加载与启动）</span><br></pre></td></tr></table></figure>
+<h2 id="业务组件化"><a href="#业务组件化" class="headerlink" title="业务组件化"></a>业务组件化</h2><p>很快就迎来了业务高速发展的时期。</p>
+<h4 id="架构模式：分割"><a href="#架构模式：分割" class="headerlink" title="架构模式：分割"></a>架构模式：分割</h4><blockquote>
+<p>网站越大，功能越复杂，服务和数据处理的种类也就越多。利用纵向分割模式，将这些不同的功能和服务分割开来，包装成高内聚低耦合的模块单元。—— 选自《大型网站架构设计》</p>
+</blockquote>
+<p>在业务越来越复杂、功能越来越多的情况下，该项目就亟需将其进行业务上的分割。而这样有利于提高开发效率和降低维护难度。</p>
+<p>而笔者这个项目进行分割还有另外一个目的：满足不同客户的需求。</p>
+<p>一旦业务功能解耦分割，就意味着我们可以按照需求重新组合起来。</p>
+<h4 id="可插拔式设计"><a href="#可插拔式设计" class="headerlink" title="可插拔式设计"></a>可插拔式设计</h4><p>顾名思义，一个业务组件的圆缺不会对系统的运行产生任何影响。这样不仅能为满足不同的需求提供重要的基础，还能大大提高打包（组合）效率。</p>
+<p>笔者对此主要做了三件事：</p>
+<ol>
+<li>规范组件声明，并使用 composer 进行管理与打包</li>
+<li>各项业务组件模型（尽量最小化）、路由独立</li>
+<li>导航基于业务组件动态生成</li>
+</ol>
+<h2 id="前后端分离"><a href="#前后端分离" class="headerlink" title="前后端分离"></a>前后端分离</h2><p>渲染的问题越来越突出。</p>
+<h4 id="痛点与契机"><a href="#痛点与契机" class="headerlink" title="痛点与契机"></a>痛点与契机</h4><p>其实，在这之前，一个问题经常出现：后端在某个页面上需要加载很多数据的时候，就会出现页面加载缓慢甚至白屏的问题。</p>
+<p>当时，是这样解决的：后端渲染时候，减少或者不做数据调取或者运算，等到浏览器页面加载完成之后，利用 AJAX 的方式再获取数据，最终完成渲染。</p>
+<p>因此，后端响应 AJAX 的数据请求 API 逐渐多了起来。不得不说，这为前后端分离提供了契机。</p>
+<p>除此之外，当时还有其他痛点困扰着笔者：</p>
+<ul>
+<li>为了提高复用性，模板设计的粒度越来越少，模板文件不断增多。后端如果要渲染一个页面，最多需要调用 10 个模板，导致了 IO 频率大大增大，渲染效率大大减低</li>
+<li>前端利用 JS 实现数据加载和响应用户 UI 操作的代码越来越多，而且复用性极低</li>
+</ul>
+<p>以上就是进行前后端分离的原因。</p>
+<h4 id="遗憾"><a href="#遗憾" class="headerlink" title="遗憾"></a>遗憾</h4><p>在打算对该项目进行前后端分离的时候，笔者由于某些原因，离开了这个项目所属的公司。</p>
+<p>不过，笔者如果还开发这个项目的话，会做以下几件事情：</p>
+<ol>
+<li>前端使用 MVVM 框架 Vue.js 进行重构</li>
+<li>把后端大部分渲染逻辑转移到前端，后端专注于响应数据请求</li>
+<li>前端也一样进行组件化管理</li>
+<li>重写用户认证功能</li>
+</ol>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以上就是这个后台项目架构演进的经历。经过了一年多的开发，笔者真真切切地感受到：好的架构是演进出来的，需要因地制宜。</p>
+<p>笔者能力不足、认识不够，许多观点可能不够准确，还请大家帮忙指正。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/blog/categories/project/">项目</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/blog/tags/前后端/">前后端</a><a href="/blog/tags/工程/">工程</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 Martin Yong
+    
+  </p>
+</footer>
+    
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-143426112-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+  </div>
+</div>
+</body>
+</html>

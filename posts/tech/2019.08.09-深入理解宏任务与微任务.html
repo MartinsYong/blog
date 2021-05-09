@@ -1,0 +1,218 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>深入理解宏任务与微任务 | Martin | 爱设计，爱创造|To design and create</title>
+
+  
+  <meta name="author" content="Martin Yong">
+  
+
+  
+  <meta name="description" content="Simple Art">
+  
+
+  
+  
+  <meta name="keywords" content="javascript">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="深入理解宏任务与微任务">
+
+  <meta property="og:site_name" content="Martin">
+
+  
+  <meta property="og:image" content="/blog/favicon.ico">
+  
+
+  <link href="/blog/favicon.ico" rel="icon">
+  <link rel="alternate" href="/blog/atom.xml" title="Martin" type="application/atom+xml">
+  <link rel="stylesheet" href="/blog/css/style.css" media="screen" type="text/css">
+  <!-- ketax style -->
+  <link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/blog/">Martin</a>
+    </h1>
+    <p class="site-description">爱设计，爱创造|To design and create</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/blog/">主页</a></li>
+      
+        <li><a href="/blog/archives">归档</a></li>
+      
+        <li><a href="/blog/categories/tech">技术</a></li>
+      
+        <li><a href="/blog/categories/life">生活</a></li>
+      
+        <li><a href="/blog/categories/casual">随笔</a></li>
+      
+        <li><a href="/blog/categories/project">项目</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>深入理解宏任务与微任务</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/blog/posts/tech/2019.08.09-深入理解宏任务与微任务.html" rel="bookmark">
+        <time class="entry-date published" datetime="2019-08-09T13:50:30.000Z">
+          2019-08-09
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>本文章以浏览器环境为主。</p>
+<h3 id="先从三道题目说起"><a href="#先从三道题目说起" class="headerlink" title="先从三道题目说起"></a>先从三道题目说起</h3><h5 id="1-宏任务有哪些？微任务有哪些？请各举几个。"><a href="#1-宏任务有哪些？微任务有哪些？请各举几个。" class="headerlink" title="1. 宏任务有哪些？微任务有哪些？请各举几个。"></a>1. 宏任务有哪些？微任务有哪些？请各举几个。</h5><h5 id="2-定时器真的是按照设定的时间定时执行吗？为什么？"><a href="#2-定时器真的是按照设定的时间定时执行吗？为什么？" class="headerlink" title="2. 定时器真的是按照设定的时间定时执行吗？为什么？"></a>2. 定时器真的是按照设定的时间定时执行吗？为什么？</h5><h5 id="3-什么是宏任务？什么是微任务？它们之间怎么界定？请说说你的理解。"><a href="#3-什么是宏任务？什么是微任务？它们之间怎么界定？请说说你的理解。" class="headerlink" title="3. 什么是宏任务？什么是微任务？它们之间怎么界定？请说说你的理解。"></a>3. 什么是宏任务？什么是微任务？它们之间怎么界定？请说说你的理解。</h5><p>这三道题由浅入深，读者可以先思考一下。</p>
+<a id="more"></a>
+<p>好，下面我们围绕这三个问题进行展开。</p>
+<h3 id="记忆题？"><a href="#记忆题？" class="headerlink" title="记忆题？"></a>记忆题？</h3><p>相信很多了理解过宏任务与微任务的读者，都可以很快地回答第一题。</p>
+<h5 id="宏任务"><a href="#宏任务" class="headerlink" title="宏任务"></a>宏任务</h5><ul>
+<li>setTimeout</li>
+<li>setInterval</li>
+<li>setImmediate（Node）</li>
+<li>requestAnimationFrame</li>
+</ul>
+<h5 id="微任务"><a href="#微任务" class="headerlink" title="微任务"></a>微任务</h5><ul>
+<li>MutationObserver</li>
+<li>Promise.then（catch、finally）</li>
+<li>process.nextTick（Node）</li>
+</ul>
+<p>这道我们姑且可以死记硬背。如果面试被问的话，肯定是道送分，但这仅仅是个开始。</p>
+<p>相信面试官或者屏幕前的你不止满足于此❤️。我们继续看下一题。</p>
+<h3 id="经常迟到者"><a href="#经常迟到者" class="headerlink" title="经常迟到者"></a>经常迟到者</h3><blockquote>
+<p>定时器真的是按照设定的时间定时执行吗？为什么？</p>
+</blockquote>
+<p>答案肯定是不一定定时执行。</p>
+<p>为什么呢？我们先看一个例子：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">var</span> start = <span class="built_in">Date</span>.now()</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'启动定时器前...'</span>)</span><br><span class="line">setTimeout(<span class="function"><span class="keyword">function</span> (<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="built_in">console</span>.log(<span class="string">'定时器执行了'</span>, (<span class="built_in">Date</span>.now() - start)+<span class="string">'ms'</span>)</span><br><span class="line">&#125;, <span class="number">200</span>)</span><br><span class="line"><span class="built_in">console</span>.log(<span class="string">'启动定时器后...'</span>)</span><br><span class="line"><span class="comment">// 做一个长时间的工作</span></span><br><span class="line"><span class="keyword">for</span> (<span class="keyword">var</span> i = <span class="number">0</span>; i &lt; <span class="number">1000000000</span>; i++) &#123;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>然后这是笔者在浏览器上执行的结果：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt; 启动定时器前...</span><br><span class="line">&gt; 启动定时器后...</span><br><span class="line">&gt; undefined</span><br><span class="line">&gt; 定时器执行了 2415ms</span><br></pre></td></tr></table></figure></p>
+<p>不禁感叹：这个差距实在……为什么它会放我鸽子？</p>
+<p>没有没有，不敢放你鸽子。它只是在路上耽误了点时间。</p>
+<p>JS 引擎在调用 <code>setTimeout</code> 之后，会跟它的上头（宿主）注册一个任务。上头收到这个任务之后会先计时，时间到了（200ms）后发现唯一能执行这个任务的劳工（JS 引擎）还在做别的事情，只好记在 TODO List 上（押入任务队列队末）。最后，劳工按顺序一步步把上头分配 TODO LIST 做完（包括这个任务）。</p>
+<p>我们重新整理一下刚刚所说的：</p>
+<ol>
+<li>JS 引擎调用 <code>setTimeout</code>，然后继续执行下面的代码</li>
+<li>宿主计时（会分配给其他线程处理）</li>
+<li>时间到了，宿主把回调押入任务队列队尾</li>
+<li>宿主按照队列顺序叫 JS 引擎一个个处理任务</li>
+<li>回调被执行，任务队列清空</li>
+</ol>
+<p>而这里所说的任务（task）就是宏任务。</p>
+<p>JS 引擎多忙啊，可惜同一时间只能做一件事（单线程）。<strong>所以，就算真的到时间了，也要等 JS 引擎空闲的时候（执行完已有的代码）才能处理。中间的时长，我们很难估定。</strong></p>
+<p>我们再看一个比较极端的例子：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">setTimeout(<span class="function"><span class="params">()</span> =&gt;</span> <span class="built_in">console</span>.log(<span class="string">'hello, 初次见面~'</span>), <span class="number">0</span>);</span><br><span class="line"><span class="comment">// 阻塞线程</span></span><br><span class="line"><span class="keyword">while</span>(<span class="literal">true</span>) &#123;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这个例子很容易理解：估计这辈子都见不了面了:(</p>
+<h3 id="做事有条有理的劳工"><a href="#做事有条有理的劳工" class="headerlink" title="做事有条有理的劳工"></a>做事有条有理的劳工</h3><p>至于第三题，上面已经比较清楚的介绍了宏任务，那么笔者现在就来说一下微任务。</p>
+<p>其实，JS 引擎很负责很认真，最重要的是很有条理：每次执行宿主给的任务，它都会新开一个自己的 TODO List（微任务队列 microtask queue），专门记录一些<strong>不能在这个任务中按代码顺序立即能完成的事情</strong>。而这个 TODO List 通常会在这个任务（如当前执行脚本）要结束时才会去着手处理。</p>
+<p>以上描述的“不能立即完成的事情”（请理解为一些异步任务），就是微任务。比如 <code>Promise.then</code>：</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">Promise</span>.resolve(<span class="number">2</span>).then(<span class="function">(<span class="params">v</span>) =&gt;</span> <span class="built_in">console</span>.log(v));</span><br><span class="line"><span class="built_in">console</span>.log(<span class="number">1</span>);</span><br></pre></td></tr></table></figure>
+<p>会先输出1，然后输出2。</p>
+<h3 id="两者的区别"><a href="#两者的区别" class="headerlink" title="两者的区别"></a>两者的区别</h3><p>其实宏任务跟微任务的存在性相似，大部分都是为了异步。至于为什么要有微任务，其实跟为什么要有线程很像。<strong>微任务存在目的主要是为了降低操作粒度，减少切换上下文的开销，保证更快被执行。</strong></p>
+<p>下面这段话节选自《Tasks, microtasks, queues and schedules》：</p>
+<blockquote>
+<p>Microtasks are usually scheduled for things that should happen straight after the currently executing script, such as reacting to a batch of actions, or to make something async without taking the penalty of a whole new task.</p>
+</blockquote>
+<p>请读者分析分析一下两个例子：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Macrotasks，不会造成死循环</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">callback</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'callback'</span>);</span><br><span class="line">  setTimeout(callback，<span class="number">0</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">callback();</span><br></pre></td></tr></table></figure></p>
+<p>上面不停地产生新的宏任务，旧的被执行完之后去执行新的。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Microtasks，同样会造成死循环，页面无响应</span></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">callback</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">  <span class="built_in">console</span>.log(<span class="string">'callback'</span>);</span><br><span class="line">  <span class="built_in">Promise</span>.resolve().then(callback);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">callback();</span><br></pre></td></tr></table></figure>
+<p>这个例子也差不多，但却用了微任务，导致微任务队列一直有任务等待执行，JS 引擎阻塞。</p>
+<h3 id="微任务先行"><a href="#微任务先行" class="headerlink" title="微任务先行"></a>微任务先行</h3><p>当你看到这里的时候，就差不多理解了为什么存在微任务，为什么微任务先行。然后我们可以以一张图总结一下宏任务与微任务的关系。</p>
+<p><img src="https://test-10058651.cos.ap-shanghai.myqcloud.com/%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E5%AE%8F%E4%BB%BB%E5%8A%A1%E4%B8%8E%E5%BE%AE%E4%BB%BB%E5%8A%A1_1.jpg" alt="image"></p>
+<p>通过这幅图，相信读者对它们的执行顺序有最直观的理解：微任务队列被清空后，再到宏任务队列被清空。</p>
+<h3 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h3><ol>
+<li><a href="https://jakearchibald.com/2015/tasks-microtasks-queues-and-schedules/" target="_blank" rel="noopener">Tasks, microtasks, queues and schedules</a></li>
+<li><a href="https://github.com/ljianshu/Blog/issues/28" target="_blank" rel="noopener">JavaScript线程机制与事件机制</a></li>
+<li><a href="https://imweb.io/topic/5bb9fd3779ddc80f36592f47" target="_blank" rel="noopener">我与Microtasks的前世今生之一眼望穿千年</a></li>
+</ol>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/blog/categories/tech/">技术</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/blog/tags/javascript/">javascript</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 Martin Yong
+    
+  </p>
+</footer>
+    
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-143426112-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+  </div>
+</div>
+</body>
+</html>

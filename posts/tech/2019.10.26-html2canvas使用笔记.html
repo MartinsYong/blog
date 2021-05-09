@@ -1,0 +1,232 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>html2canvas 使用笔记 | Martin | 爱设计，爱创造|To design and create</title>
+
+  
+  <meta name="author" content="Martin Yong">
+  
+
+  
+  <meta name="description" content="Simple Art">
+  
+
+  
+  
+  <meta name="keywords" content="plugins,html2canvas">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="html2canvas 使用笔记">
+
+  <meta property="og:site_name" content="Martin">
+
+  
+  <meta property="og:image" content="/blog/favicon.ico">
+  
+
+  <link href="/blog/favicon.ico" rel="icon">
+  <link rel="alternate" href="/blog/atom.xml" title="Martin" type="application/atom+xml">
+  <link rel="stylesheet" href="/blog/css/style.css" media="screen" type="text/css">
+  <!-- ketax style -->
+  <link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/blog/">Martin</a>
+    </h1>
+    <p class="site-description">爱设计，爱创造|To design and create</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/blog/">主页</a></li>
+      
+        <li><a href="/blog/archives">归档</a></li>
+      
+        <li><a href="/blog/categories/tech">技术</a></li>
+      
+        <li><a href="/blog/categories/life">生活</a></li>
+      
+        <li><a href="/blog/categories/casual">随笔</a></li>
+      
+        <li><a href="/blog/categories/project">项目</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>html2canvas 使用笔记</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/blog/posts/tech/2019.10.26-html2canvas使用笔记.html" rel="bookmark">
+        <time class="entry-date published" datetime="2019-10-26T12:31:25.000Z">
+          2019-10-26
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h3 id="介绍"><a href="#介绍" class="headerlink" title="介绍"></a>介绍</h3><p>此插件 <a href="https://html2canvas.hertzen.com/" target="_blank" rel="noopener">html2canvas</a> 可以说是一个 js 截屏插件。原理就像它名字所描述的一样：将 HTML 元素节点转换为 canvas 图层。</p>
+<p>转成 canvas 图片后，我们就可以对它进行各种操作，包括展示、编辑还有图片导出。</p>
+<h3 id="简单使用"><a href="#简单使用" class="headerlink" title="简单使用"></a>简单使用</h3><p>步骤：</p>
+<ol>
+<li>获取目标元素节点</li>
+<li>利用 html2canvas 生成 canvas 图层</li>
+<li>按需使用该图层</li>
+</ol>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 比如最简单的展示</span></span><br><span class="line"><span class="keyword">let</span> target = <span class="built_in">document</span>.querySelector(<span class="string">'.containter'</span>)</span><br><span class="line"></span><br><span class="line">html2canvas(target).then(<span class="function"><span class="params">canvas</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">document</span>.appendChild(canvas)</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment">// 或者导出 base64 图片</span></span><br><span class="line">html2canvas(target).then(<span class="function"><span class="params">canvas</span> =&gt;</span> &#123;</span><br><span class="line">    <span class="built_in">console</span>.log(canvas.toDataURL(<span class="string">'image/png'</span>))</span><br><span class="line">    <span class="comment">// data:image/png;base64,.......</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<a id="more"></a>
+<h5 id="可配置参数"><a href="#可配置参数" class="headerlink" title="可配置参数"></a>可配置参数</h5><p>html2canvas 方法还有第二个参数，为配置参数对象，一些比较重要的列一下：</p>
+<table>
+<thead>
+<tr>
+<th>属性名</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>allowTaint</td>
+<td>是否加载外部图片</td>
+</tr>
+<tr>
+<td>backgroundColor</td>
+<td>背景颜色，默认为 ‘#ffffff’，可设置 null 为透明</td>
+</tr>
+<tr>
+<td>imageTimeout</td>
+<td>图片加载超时时长</td>
+</tr>
+<tr>
+<td>logging</td>
+<td>是否打印错误信息，默认为 true</td>
+</tr>
+<tr>
+<td>proxy</td>
+<td>异源图片加载使用代理</td>
+</tr>
+<tr>
+<td>useCORS</td>
+<td>是否使用跨域方法加载异源图片</td>
+</tr>
+<tr>
+<td>width</td>
+<td>canvas 宽度</td>
+</tr>
+<tr>
+<td>height</td>
+<td>canvas 高度</td>
+</tr>
+</tbody>
+</table>
+<h3 id="截图不全"><a href="#截图不全" class="headerlink" title="截图不全"></a>截图不全</h3><p>如果不设置 canvas 图层宽高，该插件会默认把一整个元素截下来。但是，有时候会出现截不全的情况。</p>
+<p>笔者碰到这种情况都是因为目标元素被滚动了所致。解决方法可以是在使用 html2canvas 之前先将视窗和目标元素的滚动重置：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">window</span>.scrollTo(<span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line">targetElement.scrollTo(<span class="number">0</span>, <span class="number">0</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">// ...html2canvas(targetElement)</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="加载外部图片并导出"><a href="#加载外部图片并导出" class="headerlink" title="加载外部图片并导出"></a>加载外部图片并导出</h3><p>默认情况下，html2canvas 不会去加载目标元素内部的异源图片，比如：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://www.baidu.com/img/bd_logo1.png</span><br></pre></td></tr></table></figure></p>
+<p>除非在配置参数里面开启 <code>allowTaint</code>:<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">html2canvas(elem, &#123;</span><br><span class="line">    allowTaint: <span class="literal">true</span></span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure></p>
+<p>这样，外部图片就能在 canvas 上正常显示。</p>
+<p>然而，生成 canvas 图层的状态是 <code>tainted</code> 的，翻译过来的意思是受污染的。这样的 canvas 基于安全考虑是不能被导出的，即不能 <code>toBlob</code> 或者 <code>toDataURL</code>。</p>
+<p>chrome 浏览器会报这样的错误提示：</p>
+<blockquote>
+<p>Uncaught DOMException: Failed to execute ‘toDataURL’ on ‘HTMLCanvasElement’: Tainted canvases may not be exported.</p>
+</blockquote>
+<p><strong>html2canvas 提供了以下两种方法来解决：</strong></p>
+<h4 id="CORS"><a href="#CORS" class="headerlink" title="CORS"></a>CORS</h4><p>启用跨域访问，配置参数如下：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">    useCORS: <span class="literal">true</span></span><br><span class="line">    <span class="comment">// ...</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>这样，html2canvas 会在请求图片的时候加上头 <code>Origin: martinsyong.github.io</code>。</p>
+<p>这种方法必须要图片服务器的支持，即响应加上一堆头：<code>Access-control-allow-*</code></p>
+<h4 id="使用代理"><a href="#使用代理" class="headerlink" title="使用代理"></a>使用代理</h4><p>我们可以在自己的服务器上设置代理来转发此图片，html2canvas 配置参数加上 proxy，即代理地址。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    proxy: &apos;/proxy&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>实际图片请求的地址为：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">https://localhost/proxy?url=https%3A%2F%2Fexample.com%2Fxx.png&amp;responseType=blob</span><br></pre></td></tr></table></figure></p>
+<p>这种方法比较灵活，而且较容易实现。官方也给出了 proxy 服务端的示例代码：<a href="https://github.com/niklasvh/html2canvas-proxy-nodejs" target="_blank" rel="noopener">https://github.com/niklasvh/html2canvas-proxy-nodejs</a></p>
+<h3 id="Ref"><a href="#Ref" class="headerlink" title="Ref"></a>Ref</h3><ol>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/CORS_enabled_image" target="_blank" rel="noopener">启用 CORS</a></li>
+<li><a href="https://www.zhangxinxu.com/wordpress/2018/02/crossorigin-canvas-getimagedata-cors/" target="_blank" rel="noopener">解决canvas图片getImageData,toDataURL跨域问题</a></li>
+</ol>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/blog/categories/tech/">技术</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/blog/tags/plugins/">plugins</a><a href="/blog/tags/html2canvas/">html2canvas</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 Martin Yong
+    
+  </p>
+</footer>
+    
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-143426112-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+  </div>
+</div>
+</body>
+</html>

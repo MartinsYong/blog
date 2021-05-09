@@ -1,0 +1,221 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>css background背景 | Martin | 爱设计，爱创造|To design and create</title>
+
+  
+  <meta name="author" content="Martin Yong">
+  
+
+  
+  <meta name="description" content="Simple Art">
+  
+
+  
+  
+  <meta name="keywords" content="css">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="css background背景">
+
+  <meta property="og:site_name" content="Martin">
+
+  
+  <meta property="og:image" content="/blog/favicon.ico">
+  
+
+  <link href="/blog/favicon.ico" rel="icon">
+  <link rel="alternate" href="/blog/atom.xml" title="Martin" type="application/atom+xml">
+  <link rel="stylesheet" href="/blog/css/style.css" media="screen" type="text/css">
+  <!-- ketax style -->
+  <link href="https://cdn.bootcss.com/KaTeX/0.11.1/katex.min.css" rel="stylesheet">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/blog/">Martin</a>
+    </h1>
+    <p class="site-description">爱设计，爱创造|To design and create</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/blog/">主页</a></li>
+      
+        <li><a href="/blog/archives">归档</a></li>
+      
+        <li><a href="/blog/categories/tech">技术</a></li>
+      
+        <li><a href="/blog/categories/life">生活</a></li>
+      
+        <li><a href="/blog/categories/casual">随笔</a></li>
+      
+        <li><a href="/blog/categories/project">项目</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>css background背景</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/blog/posts/tech/2017.03.19-css-background背景.html" rel="bookmark">
+        <time class="entry-date published" datetime="2017-03-19T05:44:55.000Z">
+          2017-03-19
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h3 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h3><p>昨天面试前端的时候被面试官问background的问题却答不上几点。唉～复习一下吧。</p>
+<hr>
+<h3 id="简要描述"><a href="#简要描述" class="headerlink" title="简要描述"></a>简要描述</h3><table>
+<thead>
+<tr>
+<th>属性</th>
+<th>描述</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>background-color</td>
+<td>规定要使用的背景颜色。</td>
+</tr>
+<tr>
+<td>background-position</td>
+<td>规定背景图像的位置。</td>
+</tr>
+<tr>
+<td>background-size</td>
+<td>规定背景图片的尺寸。</td>
+</tr>
+<tr>
+<td>background-repeat</td>
+<td>规定如何重复背景图像。</td>
+</tr>
+<tr>
+<td>background-origin</td>
+<td>规定背景图片的定位区域。</td>
+</tr>
+<tr>
+<td>background-clip</td>
+<td>规定背景的绘制区域。</td>
+</tr>
+<tr>
+<td>background-attachment</td>
+<td>规定背景图像是否固定或者随着页面的其余部分滚动。</td>
+</tr>
+<tr>
+<td>background-image</td>
+<td>规定要使用的背景图像。</td>
+</tr>
+</tbody>
+</table>
+<a id="more"></a>
+<h3 id="具体研究"><a href="#具体研究" class="headerlink" title="具体研究"></a>具体研究</h3><h4 id="background-color"><a href="#background-color" class="headerlink" title="background-color"></a>background-color</h4><ul>
+<li>默认值为transparent，即透明</li>
+<li>可令值为某个rbg颜色</li>
+<li>这种颜色会填充元素的内容、内边距和边框区域，扩展到元素边框的外边界（但不包括外边距）</li>
+</ul>
+<h4 id="background-position"><a href="#background-position" class="headerlink" title="background-position"></a>background-position</h4><ul>
+<li>默认值为0% 0%，分别表示水平值和垂直值，可用像素来描述（数值不带单位）</li>
+<li>可用centre/bottom/top/left/right来定义两个值，如<figure class="highlight plain"><figcaption><span>left```</span></figcaption><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">#### background-size</span><br><span class="line"></span><br><span class="line">- 默认值为auto，一般是图片的大小</span><br><span class="line">- 可填写像素值和百分比，格式为```50 50```或```50% 50%```，分别为宽度值和高度值</span><br><span class="line">- 两个特殊的值，均可先理解为按原图像宽高比拉伸以覆盖整个容器：</span><br><span class="line">    1. cover，真正覆盖整个容器，但可能因容器和原图像的宽高比不同而无法显示完整的图像，即有一部分会隐藏起来</span><br><span class="line">    2. contain，可能因容器和原图像的宽高比不同而无法完全覆盖整个容器，图像完整显示</span><br><span class="line"></span><br><span class="line">#### background-repeat</span><br><span class="line"></span><br><span class="line">- 两个常用的值：repeat和no-repeat，默认repeat的模式为水平和垂直方向都重复</span><br><span class="line">- 另两值：repeat-x和repeat-y，顾名思义.....</span><br><span class="line">- inherit：继承爸爸</span><br><span class="line">- 配合background-size会有加成，读者可以试试</span><br><span class="line"></span><br><span class="line">#### background-origin 和 background-clip</span><br><span class="line"></span><br><span class="line">- 它们的值均有border-box/padding-box/content-box</span><br><span class="line">- 对比一下更好理解：</span><br><span class="line"></span><br><span class="line">```css</span><br><span class="line">div</span><br><span class="line">&#123;</span><br><span class="line">border:1px solid black;</span><br><span class="line">padding:35px;</span><br><span class="line">background-image:url(&apos;图片地址&apos;);</span><br><span class="line">background-repeat:no-repeat;</span><br><span class="line">background-position:left;</span><br><span class="line">&#125;</span><br><span class="line">#div1</span><br><span class="line">&#123;</span><br><span class="line">background-origin:border-box;</span><br><span class="line">background-clip: content-box;</span><br><span class="line">&#125;</span><br><span class="line">#div2</span><br><span class="line">&#123;</span><br><span class="line">background-origin:content-box;</span><br><span class="line">background-clip:border-box;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ul>
+<p><img src="https://test-10058651.cos.ap-shanghai.myqcloud.com/css_background%E8%83%8C%E6%99%AF_1.png" alt="image"></p>
+<h4 id="background-attachment"><a href="#background-attachment" class="headerlink" title="background-attachment"></a>background-attachment</h4><ul>
+<li>默认值为scroll</li>
+<li>有趣的值：fixed，多个容器、多个背景使用时会有视差效果</li>
+<li>inherit：继承爸爸</li>
+</ul>
+<h4 id="background-image"><a href="#background-image" class="headerlink" title="background-image"></a>background-image</h4><ul>
+<li>常用方法：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">- css3中新增多重背景功能：```url(&apos;图像地址1&apos;),url(&apos;图像地址2&apos;),url(&apos;图像地址3&apos;)</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="Reference"><a href="#Reference" class="headerlink" title="Reference"></a>Reference</h3><p><a href="http://www.w3school.com.cn/cssref/index.asp#background" target="_blank" rel="noopener">w3school</a></p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+      
+
+    <span class="post-categories">
+      <i class="icon-categories"></i>
+        <a href="/blog/categories/tech/">技术</a>
+    </span>
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/blog/tags/css/">css</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 Martin Yong
+    
+  </p>
+</footer>
+    
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-143426112-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+  </div>
+</div>
+</body>
+</html>
